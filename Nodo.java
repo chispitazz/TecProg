@@ -3,17 +3,17 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.lang.UnsupportedOperationException;
 
-abstract class NODO{
+abstract class Nodo{
 		String nombreNodo;
-		abstract int size; 			// Solo para Fichero y Directorio
+		int size; 								// Solo para Fichero y Directorio
 
-		public NODO( String nombre){
-			nombreNodo= nombreNodo;
-		}
+
 		public void setNombre(String nombre){
-			nombreNodo=nombreNodo;
+			nombreNodo=nombre;
 		}
 		public String getNombre(){
-			
+			return nombreNodo;
 		}
+		abstract public void setSize();
+		abstract public int getSize();
 }
