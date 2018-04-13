@@ -25,5 +25,9 @@ class Main {
 	Ruta rutilla= new Ruta(raiz);
 	// Probamos ls sobre una ruta
 	rutilla.ls();
+
+	//Probamos el stat sobre un elemento concreto
+	rutilla.stat("Francia.exe");
+
    }
 };
