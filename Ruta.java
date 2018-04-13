@@ -27,7 +27,7 @@ class Ruta extends Nodo{
 			for(Iterator i = hijitosRuta.iterator();i.hasNext();){
 
 					Nodo aux= (Nodo) i.next();
-					ruteta= ruteta +aux.getSize();
+					ruteta= ruteta +aux.getNombre();
 				}
 				return ruteta;
 		}
