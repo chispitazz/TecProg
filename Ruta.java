@@ -2,19 +2,36 @@
 import java.util.*;
 
 
-class DIRECTORIO extends NODO{
-		int size;
-		LinkedList<NODO> hijitos = new LinkedList<NODO>();
+class Ruta extends Nodo{
 
-		public DIRECTORIO (String nombreDirectorio){
-			nombreNodo= nombreDirectorio;
-			size=0;
+		LinkedList<Nodo> hijitosRuta;
+
+		// ------Constructores
+		public Ruta(){
+			hijitosRuta= new LinkedList<Nodo>();
 		}
-		public int getSize(){
-			return size;
+
+		public Ruta(Nodo nodete){
+			hijitosRuta= new LinkedList<Nodo>();
+			hijitosRuta.add(nodete);
 		}
-		public void setSize(){
-			//Calcular tamño hijitos
+		//-------Constructores
+
+		//-------Funciones
+		public String pwd(){
+			String ruteta="/";
+			for(Iterator i = hijitosRuta.iterator();i.hasNext();){
+
+					Nodo aux= (Nodo) i.next();
+					ruteta= ruteta +aux.getSize();
+				}
+				return ruteta;
+
 		}
+
+		int getSize(){
+			return 0;
+		}
+		//-------Funciones
 
 }
