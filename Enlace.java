@@ -4,19 +4,17 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.lang.UnsupportedOperationException;
 
-class DIRECTORIO extends NODO{
-		int size;
-		LinkedList<NODO> hijitos = new LinkedList<NODO>();
+class Enlace extends NODO{
+		Nodo NodoEnlazado;
 
-		public DIRECTORIO (String nombreDirectorio){
-			nombreNodo= nombreDirectorio;
-			size=0;
+		public Enlace (Nodo nodete){
+			NodoEnlazado=nodete;
 		}
 		public int getSize(){
-			return size;
+			return NodoEnlazado.getSize();
 		}
 		public void setSize(){
-			//Calcular tamño hijitos
+			NodoEnlazado.setSize();
 		}
 
 }
