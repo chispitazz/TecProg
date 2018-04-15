@@ -29,7 +29,6 @@ class Directorio extends Nodo{
 			return tamanyo;
 		}
 
-
 		public String listarDirectorio (){
 			String listado="";
 			for(Iterator i = hijitos.iterator();i.hasNext();){
