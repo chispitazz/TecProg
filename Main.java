@@ -1,3 +1,7 @@
+//Main.java para la práctica 3 de Tecnología de la Programación
+/* Autores: David Ubide Alaiz y Elena Morón Vidal
+ * NIA: 736520 y 739324
+ */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

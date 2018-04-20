@@ -1,3 +1,7 @@
+//Enlace.java para la práctica 3 de Tecnología de la Programación
+/* Autores: David Ubide Alaiz y Elena Morón Vidal
+ * NIA: 736520 y 739324
+ */
 import java.lang.Iterable;
 import java.util.*;
 import java.util.Iterator;
@@ -6,14 +10,17 @@ import java.lang.UnsupportedOperationException;
 
 class Enlace extends Nodo
 {
-		Nodo NodoEnlazado;
+	//-----Atributos de Enlace-----
+	Nodo NodoEnlazado;
 
-		public Enlace (Nodo nodete){
-			NodoEnlazado=nodete;
-		}
+	//-----Constructor de Enlace-----
+	public Enlace (Nodo nodete){
+		NodoEnlazado=nodete;
+	}
 
-		int getSize(){
-			return NodoEnlazado.getSize();
-		}
+	//-----Métodos de Enlace-----
+	int getSize(){
+		return NodoEnlazado.getSize();
+	}
 
 }
