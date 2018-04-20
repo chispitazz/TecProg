@@ -41,11 +41,25 @@ class Directorio extends Nodo{
 			String listado="";
 			for(Iterator i = hijitos.iterator();i.hasNext();){
 
-				Nodo aux= (Nodo) i.next();
-				listado= listado+aux.getNombre()+"\n";
+				Nodo aux = (Nodo) i.next();
+				listado = listado+aux.getNombre()+"\n";
 			}
 			return listado;
 
+		}
+
+		//Devuelve cierto si existe un Directorio con nombre buscado en Directorio
+		public boolean buscarDirectorio(String buscado) {
+			boolean esta = false;
+			for(Iterator i = hijitos.iterator(); i.hasNext() & !esta;){
+
+				Nodo aux = (Nodo) i.next();
+				if (aux instanceof Directorio) { //Si aux es directorio
+					esta = buscado.equals(aux.getNombre());
+				}
+
+			}
+			return esta;
 		}
 		
 }

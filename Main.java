@@ -16,10 +16,12 @@ class Main {
 	Archivo Arriba = new Archivo("Espanya.txt",0);
 	Archivo MasArriba = new Archivo("Francia.exe",100);
 	Archivo EnlaCumbre = new Archivo("Alemania.NEPE",101);
+	
 	// Los anyadimos
 	raiz.addNodo(Arriba);
 	raiz.addNodo(MasArriba);
 	raiz.addNodo(EnlaCumbre);
+
 
 	// Imprimimos resultado
 	int resul=raiz.getSize();
@@ -32,6 +34,5 @@ class Main {
 
 	//Probamos el stat sobre un elemento concreto
 	rutilla.stat("Francia.exe");
-
    }
 };
