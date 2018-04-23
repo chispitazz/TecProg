@@ -59,7 +59,12 @@ class Ruta extends Nodo{
 	//se refiere a la raíz del árbol de directorios. También se le puede pasar como 
 	//parámetro una ruta completa (varios directorios separados por “/”)
 	public void cd(String path) {
-		
+		//Dividir la cadena en caso de que hubiera una ruta
+		String carpetasRuta[] = path.split("/");
+		List<String> carpetasList = Arrays.asList( carpetasRuta );
+		for (int i = 0; i < carpetasList.size() ; i = i+1){
+			
+		}
 	}
 
 	//Muestra por pantalla el número que es el tamaño del archivo, directorio o enlace
