@@ -60,25 +60,47 @@ class Ruta extends Nodo{
 	public void cd(String path) {
 		//Dividir la cadena en caso de que hubiera una ruta
 		if(path != "."){
-			if(path=".."{
+			if(path == ".."){
 				hijitosRuta.removeLast();
 			}
-			if(path="/"{
+			else if(path=="/"){
 				Nodo aux= hijitosRuta.getFirst();
 				hijitosRuta=new LinkedList<Nodo>();
 				hijitosRuta.add(aux);
 			}	
 			else{
-				Nodo Buscado=hijitosRuta.getFirst();
+				boolean rutaCorrecta=true;
+
 				String carpetasRuta[] = path.split("/");
 				List<String> carpetasList = Arrays.asList( carpetasRuta );
-				bool rutaCorrecta=true;
+				
+
+				Nodo aux= hijitosRuta.getFirst();
+				LinkedList<Nodo> auxLista=new LinkedList<Nodo>();
+				auxLista.add(aux);
+
+				Directorio Buscado=(Directorio) hijitosRuta.getFirst();
 				for (Iterator i =carpetasList.iterator();i.hasNext();){
-					String siguienteRuta =carpetasList.next();
-					if(Buscado.buscarDirectorio(siguienteRuta)){
-						
+					String siguienteRuta = (String) i.next();
+					if(siguienteRuta != ""){
+						if(Buscado.buscarDirectorio(siguienteRuta)){
+							Buscado=Buscado.cogerDirectorio(siguienteRuta);
+							auxLista.addLast(Buscado);
+						}
+						else{
+							rutaCorrecta=false;
+							break;
+						}
 					}
+					
 				}
+				//Si era correcta ,sera nuestra neuva ruta
+				if(rutaCorrecta){
+					hijitosRuta= auxLista;
+				}
+			
+
+
 			}
 		
 		}

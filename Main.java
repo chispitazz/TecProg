@@ -18,11 +18,17 @@ class Main {
 	Archivo Arriba = new Archivo("Espanya.txt",0);
 	Archivo MasArriba = new Archivo("Francia.exe",100);
 	Archivo EnlaCumbre = new Archivo("Alemania.NEPE",101);
-	
+	Directorio Fir= new Directorio("NP");
+
 	// Los anyadimos
+	
 	raiz.addNodo(Arriba);
 	raiz.addNodo(MasArriba);
 	raiz.addNodo(EnlaCumbre);
+	Fir.addNodo(Arriba);
+	raiz.addNodo(Fir);
+
+
 
 
 	// Imprimimos resultado
@@ -36,5 +42,15 @@ class Main {
 
 	//Probamos el stat sobre un elemento concreto
 	rutilla.stat("Francia.exe");
+	String rutaA= rutilla.pwd();
+	System.out.println(rutaA);
+	String Prueba="/etc/pass/sddfasdf";
+	String carpetasRuta[] = Prueba.split("/");
+	System.out.println(carpetasRuta[1]);
+	System.out.println(carpetasRuta[2]);
+	System.out.println(carpetasRuta[3]);
+
+
+
    }
 };
