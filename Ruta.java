@@ -8,7 +8,6 @@ import java.util.*;
 class Ruta extends Nodo{
 	//-----Atributos de Ruta-----
 	LinkedList<Nodo> hijitosRuta= new LinkedList<Nodo>();
-
 	//-----Constructor de Ruta-----
 	public Ruta(Directorio nodete){
 		hijitosRuta.add(nodete);
@@ -60,11 +59,30 @@ class Ruta extends Nodo{
 	//parámetro una ruta completa (varios directorios separados por “/”)
 	public void cd(String path) {
 		//Dividir la cadena en caso de que hubiera una ruta
-		String carpetasRuta[] = path.split("/");
-		List<String> carpetasList = Arrays.asList( carpetasRuta );
-		for (int i = 0; i < carpetasList.size() ; i = i+1){
-			
+		if(path != "."){
+			if(path=".."{
+				hijitosRuta.removeLast();
+			}
+			if(path="/"{
+				Nodo aux= hijitosRuta.getFirst();
+				hijitosRuta=new LinkedList<Nodo>();
+				hijitosRuta.add(aux);
+			}	
+			else{
+				Nodo Buscado=hijitosRuta.getFirst();
+				String carpetasRuta[] = path.split("/");
+				List<String> carpetasList = Arrays.asList( carpetasRuta );
+				bool rutaCorrecta=true;
+				for (Iterator i =carpetasList.iterator();i.hasNext();){
+					String siguienteRuta =carpetasList.next();
+					if(Buscado.buscarDirectorio(siguienteRuta)){
+						
+					}
+				}
+			}
+		
 		}
+		
 	}
 
 	//Muestra por pantalla el número que es el tamaño del archivo, directorio o enlace
@@ -146,7 +164,7 @@ class Ruta extends Nodo{
 			// Miramos si coincide
 			if(posibleNombre == orig ){
 				Enlace nuevo= new Enlace(posibleElemento);
-				ultimo.hijitos.add(nuevo);
+				ultimo.hijitos.addLast(nuevo);
 				break;
 			}
 		}
