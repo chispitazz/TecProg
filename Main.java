@@ -44,12 +44,15 @@ class Main {
 	rutilla.stat("Francia.exe");
 	String rutaA= rutilla.pwd();
 	System.out.println(rutaA);
-	String Prueba="/etc/pass/sddfasdf";
+	String Prueba="/NP/asfsd/popoppop";
 	String carpetasRuta[] = Prueba.split("/");
 	System.out.println(carpetasRuta[1]);
 	System.out.println(carpetasRuta[2]);
 	System.out.println(carpetasRuta[3]);
-
+	String Prueba2="/";
+	rutilla.cd(Prueba2);
+	rutaA= rutilla.pwd();
+	System.out.println(rutaA);
 
 
    }

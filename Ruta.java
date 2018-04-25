@@ -78,11 +78,14 @@ class Ruta extends Nodo{
 				Nodo aux= hijitosRuta.getFirst();
 				LinkedList<Nodo> auxLista=new LinkedList<Nodo>();
 				auxLista.add(aux);
-
 				Directorio Buscado=(Directorio) hijitosRuta.getFirst();
+
 				for (Iterator i =carpetasList.iterator();i.hasNext();){
 					String siguienteRuta = (String) i.next();
-					if(siguienteRuta != ""){
+
+					if((siguienteRuta != null) && (!siguienteRuta.equals("")) ) {
+						System.out.println("He entrado");
+
 						if(Buscado.buscarDirectorio(siguienteRuta)){
 							Buscado=Buscado.cogerDirectorio(siguienteRuta);
 							auxLista.addLast(Buscado);
@@ -99,8 +102,6 @@ class Ruta extends Nodo{
 					hijitosRuta= auxLista;
 				}
 			
-
-
 			}
 		
 		}
