@@ -152,31 +152,97 @@ class Ruta extends Nodo{
 	//parámetro. También se le puede pasar una ruta completa.
 	public void stat(String element){
 		
-		String posibleNombre="";
-		// Buscamos entre los elementos del ultimo Nodo (nuestro directorio)
-		// cuyo nombre se corresponde a "element"
-		boolean encontrado = false;
-		Directorio ultimo = (Directorio) hijitosRuta.getLast();
-
-		//Se busca sobre este ultimo directorio el archivo cuyo nombre coincida con "element"
-		for(Iterator i = ultimo.hijitos.iterator();i.hasNext();){
-
-			Nodo posibleElemento= (Nodo) i.next();
-			posibleNombre= posibleElemento.getNombre();
-
-			// Miramos si coincide
-			if(posibleNombre == element){
-				//Sacamos lo que nos piden por pantalla
-				encontrado = true;
-				int tamanyo=posibleElemento.getSize();
-				System.out.println("El archivo: "+posibleNombre +" tiene un tamaño de: "+tamanyo+" bytes");
-				break;
+		if( (element != null) && (!element.equals("")) ){			
+				
+			if (element.equals("/")) {
+				System.out.println("Tamanyo de " + raiz.getNombre() + " = " + raiz.getSize());
 			}
-		}
+			else {
+				LinkedList<Nodo> auxLista;
+				String[] nextElem = element.split("/");
+				boolean encontrado=false;
+				boolean rutaCorrecta=true;
+				int tamanyo = -1;
 
-		//Mensaje de Debug
-		if(!encontrado){
-			System.out.println("Archivo no encontrado");
+				//Ruta absoluta
+				if (nextElem[0].isEmpty()){
+					auxLista=new LinkedList<Nodo>();
+				}
+				//Ruta relativa
+				else{
+					auxLista=hijitosRuta;
+				}
+				//Buscar elemento
+				for (String AuxRuta : nextElem) {
+					
+					if(!AuxRuta.isEmpty()){
+						//AuxRuta no es vacío
+						if (AuxRuta.equals(nextElem[nextElem.length-1])) {
+							//Nodo a buscar
+							Directorio auxDir;
+							if (auxLista.size() == 0) {
+								auxDir = (Directorio) raiz.getNode();
+							}
+							else {
+								auxDir = (Directorio) auxLista.getLast().getNode();
+							} 
+							tamanyo = auxDir.tamElemento(AuxRuta);
+						}
+
+						else {
+							//Comprobar ruta correcta
+							switch (AuxRuta){
+							case "..":
+										if (!hijitosRuta.isEmpty()) {
+											auxLista.removeLast();
+										}
+										break;
+							case ".": 	
+										break;
+							default:
+									//Comprobar que es un directorio
+
+									if(auxLista.size()==0){
+										Directorio auxDir= (Directorio) raiz.getNode();
+											if(auxDir.buscarDirectorio(AuxRuta)){
+												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+												auxLista.addLast(bueno);
+											}
+											else{
+												rutaCorrecta=false;
+											}	
+									}
+									else{
+										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
+											if(auxDir.buscarDirectorio(AuxRuta)){
+												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+												auxLista.addLast(bueno);
+											}
+											else{
+												rutaCorrecta=false;
+											}	
+
+									}
+									break;
+							}
+
+						}
+						if(!rutaCorrecta){
+							break;
+						}
+				
+					}
+					
+					
+				}
+				//Si el elemento existe se muestra por pantalla el número del tamaño del mismo
+				if(tamanyo >= 0){
+					System.out.println("Tamanyo de " + element + " = " + tamanyo);
+				}
+				else {
+					System.out.println("NO ENCONTRADO");
+				}
+			}		
 		}
 	}
 
@@ -221,9 +287,14 @@ class Ruta extends Nodo{
 	//Crea un directorio dentro de la ruta actual. No se le puede pasar como
 	//parámetro una ruta completa.
 	public void mkdir(String dir){
+		Directorio nuevo = new Directorio(dir);
+		if (hijitosRuta.size() == 0) { //Añadir en el directorio raíz
+			raiz.addNodo(nuevo);
+		}
+		else { //Añadir en el directorio actual
 			Directorio ultimo = (Directorio) hijitosRuta.getLast();
-			Directorio nuevo = new Directorio(dir);
 			ultimo.addNodo(nuevo);
+		}
 	}
 
 	//Crea un enlace simbólico de nombre "dest" a que enlazar el elemento identificado
@@ -343,7 +414,7 @@ class Ruta extends Nodo{
 	//enlazando al elemento borrado. Así pues, para eliminar completamente un elemento
 	//hay que borrar el elemento y todos los enlaces que apuntan a dicho elemento de forma
 	//manual
-	public void rm( String e){
+	public void rm(String e){
 
 		Directorio ultimo = (Directorio) hijitosRuta.getLast();
 		for(Iterator i = ultimo.hijitos.iterator();i.hasNext();){
