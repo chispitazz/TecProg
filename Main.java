@@ -78,6 +78,7 @@ class Main {
 
 
 	//Prueba de stat
+	rutaA=rutilla.stat()
 	System.out.println("\n Este es el Stat\n");
 	System.out.println(rutaA);
 
