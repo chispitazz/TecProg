@@ -80,4 +80,14 @@ class Directorio extends Nodo{
 		Nodo getNode(){
 			return this;
 		}
+		public boolean buscarElemento(String buscado, Nodo elemento) {
+			boolean esta = false;
+			for(Iterator i = hijitos.iterator(); i.hasNext() & !esta;){
+
+				elemento = (Nodo) i.next();
+				esta = buscado.equals(aux.getNombre());
+
+			}
+			return esta;
+		}
 }

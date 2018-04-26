@@ -144,6 +144,89 @@ class Ruta extends Nodo{
 	//parámetro. También se le puede pasar una ruta completa.
 	public void stat(String element){
 		
+		if( (element != null) && (!element.equals("")) ){			
+				
+				LinkedList<Nodo> auxLista;
+				String[] nextElem = element.split("/");
+				boolean encontrado=false;
+				boolean rutaCorrecta=true;
+				Nodo elemento;
+
+				//Ruta absoluta
+				if (nextElem[0].isEmpty()){
+					auxLista=new LinkedList<Nodo>();
+				}
+				//Ruta relativa
+				else{
+					auxLista=hijitosRuta;
+				}
+				//Buscar elemento
+				for (String AuxRuta : nextElem){
+					
+					if(!AuxRuta.isEmpty()){
+						//AuxRuta no es vacío
+						if (AuxRuta.equals(nextElem[nextElem.length()-1]) {
+							//Nodo a buscar
+							Directorio auxDir;
+							if (nextElem[0].isEmpty()) {
+								auxDir = (Directorio) raiz.getNode();
+							}
+							else {
+								auxDir = (Directorio) hijitosRuta.getLast().getNode();
+							} 
+							encontrado = auxDir.buscarElemento(AuxRuta, elemento);
+						}
+						else {
+							//Comprobar ruta correcta
+							switch (AuxRuta){
+							case "..":
+										auxLista.removeLast();
+										break;
+							case ".": 	
+										break;
+							default:
+									//Comprobar que es un directorio
+
+									if(auxLista.size()==0){
+										Nodo aux;
+										Directorio auxDir= (Directorio) raiz.getNode();
+											if(auxDir.buscarDirectorio(AuxRuta, aux)){
+												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+												auxLista.addLast(bueno);
+											}
+											else{
+												rutaCorrecta=false;
+											}	
+									}
+									else{
+										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
+											if(auxDir.buscarDirectorio(AuxRuta,elemento)){
+												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+												auxLista.addLast(bueno);
+											}
+											else{
+												rutaCorrecta=false;
+											}	
+
+									}
+									break;
+							}
+
+						}
+						if(!rutaCorrecta){
+							break;
+						}
+				
+					}
+					
+					
+				}
+				//Si el elemento existe se devuelve el tamaño del mismo
+				if(encontrado){
+					return elemento.getSize();
+				}
+			
+		}
 		String[] auxRuta=element.split("/");
 		// Buscamos entre los elementos del ultimo Nodo (nuestro directorio)
 		// cuyo nombre se corresponde a "element"
