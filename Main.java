@@ -44,7 +44,7 @@ class Main {
 
 	//Probamos el pwd sobre un elemento concreto
 	String rutaA= rutilla.pwd();
-	System.out.println(rutaA+ " Entro al CD");
+	System.out.println(rutaA);
 
 	//Prueba de Vim
 		rutilla.vim("Espanya.txt",50);
@@ -78,7 +78,6 @@ class Main {
 
 
 	//Prueba de stat
-	rutaA=rutilla.stat()
 	System.out.println("\n Este es el Stat\n");
 	System.out.println(rutaA);
 
