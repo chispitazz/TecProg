@@ -41,18 +41,21 @@ class Main {
 	rutilla.ls();
 
 	//Probamos el stat sobre un elemento concreto
-	rutilla.stat("Francia.exe");
 	String rutaA= rutilla.pwd();
+	System.out.println(rutaA+ " Entro al CD");
+	String Prueba2="/NP";
+	rutilla.cd(Prueba2);
+	rutaA= rutilla.pwd();
+
 	System.out.println(rutaA);
+	rutilla.stat("Francia.exe");
+	
 	String Prueba="/NP/asfsd/popoppop";
 	String carpetasRuta[] = Prueba.split("/");
 	System.out.println(carpetasRuta[1]);
 	System.out.println(carpetasRuta[2]);
 	System.out.println(carpetasRuta[3]);
-	String Prueba2="/NP";
-	rutilla.cd(Prueba2);
-	rutaA= rutilla.pwd();
-	System.out.println(rutaA);
+
 
 
    }
