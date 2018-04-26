@@ -40,12 +40,24 @@ class Main {
 	// Probamos ls sobre una ruta
 	rutilla.ls();
 
-	//Probamos el stat sobre un elemento concreto
+	//Probamos el pwd sobre un elemento concreto
 	String rutaA= rutilla.pwd();
 	System.out.println(rutaA+ " Entro al CD");
+
+	//Prueba de Vim
+		rutilla.vim("Espanya.txt",50);
+		rutilla.ls();
+		System.out.println("\n Este es el Segundo ls \n");
+		rutilla.vim("nuevoArchivo",60);
+		rutilla.ls();
+
+
+	//Prueba de CD
+	System.out.println("\n Este es el primer cd\n");
 	String Prueba2="/NP";
 	rutilla.cd(Prueba2);
 	rutaA= rutilla.pwd();
+
 
 	System.out.println(rutaA);
 	rutilla.stat("Francia.exe");

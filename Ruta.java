@@ -74,7 +74,6 @@ class Ruta extends Nodo{
 				LinkedList<Nodo> auxLista;
 				String[] siguienteRuta = path.split("/");
 
-				Directorio Buscado;
 				boolean rutaCorrecta=true;
 			
 				if (siguienteRuta[0].isEmpty()){
@@ -177,22 +176,36 @@ class Ruta extends Nodo{
 	//crea automáticamente con el nombre y tamaño especificados. Si el archivo referenciado
 	//por "file" es en realidad un enlace a un archivo, también cambia su tamaño.
 	public void vim(String file, int size){
-		Directorio ultimo = (Directorio) hijitosRuta.getLast();
-
-		for(Iterator i = ultimo.hijitos.iterator();i.hasNext();){
-
-			Nodo posibleElemento= (Nodo) i.next();
+		Directorio Cambio;
+		if (hijitosRuta.size()==0){
+			Cambio= raiz;
+		}
+		else{
+			Cambio=(Directorio) hijitosRuta.getLast().getNode();
+		}
+		boolean encontrado=false;
+		for(Nodo posibleElemento : Cambio.hijitos){
+			posibleElemento=posibleElemento.getNode();
 			String posibleNombre= posibleElemento.getNombre();
 
 			// Miramos si coincide
 			if(posibleNombre == file ){
-					
 				if(posibleElemento instanceof Archivo){
 					Archivo aux= (Archivo) posibleElemento;
 					aux.setSize(size);
+					encontrado=true;
+				}
+				else{
+					//Dara error
 				}
 				break;
 			}
+		}
+		if(!encontrado){
+			// Lo creamos;
+			Archivo nuevo = new Archivo(file,size);
+			// Lo añadimos
+			Cambio.hijitos.addLast(nuevo);
 		}
 	}
 
