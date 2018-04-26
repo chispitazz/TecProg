@@ -278,9 +278,14 @@ class Ruta extends Nodo{
 	//Crea un directorio dentro de la ruta actual. No se le puede pasar como
 	//parámetro una ruta completa.
 	public void mkdir(String dir){
+		Directorio nuevo = new Directorio(dir);
+		if (hijitosRuta.size() == 0) { //Añadir en el directorio raíz
+			raiz.addNodo(nuevo);
+		}
+		else { //Añadir en el directorio actual
 			Directorio ultimo = (Directorio) hijitosRuta.getLast();
-			Directorio nuevo = new Directorio(dir);
 			ultimo.addNodo(nuevo);
+		}
 	}
 
 	//Crea un enlace simbólico de nombre "dest" a que enlazar el elemento identificado
@@ -310,7 +315,7 @@ class Ruta extends Nodo{
 	//enlazando al elemento borrado. Así pues, para eliminar completamente un elemento
 	//hay que borrar el elemento y todos los enlaces que apuntan a dicho elemento de forma
 	//manual
-	public void rm( String e){
+	public void rm(String e){
 
 		Directorio ultimo = (Directorio) hijitosRuta.getLast();
 		for(Iterator i = ultimo.hijitos.iterator();i.hasNext();){

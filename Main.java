@@ -37,11 +37,12 @@ class Main {
 	Ruta rutilla= new Ruta(raiz);
 	// Probamos ls sobre una ruta
 	rutilla.ls();
+	//Prueba de stat
 	System.out.println("\n Empieza stat \n");
 	rutilla.stat("/");
 	System.out.println("\n Fin stat \n");
 
-	/*//Probamos el pwd sobre un elemento concreto
+	//Probamos el pwd sobre un elemento concreto
 	String rutaA= rutilla.pwd();
 	System.out.println(rutaA+ " Entro al CD");
 
@@ -58,18 +59,17 @@ class Main {
 	String Prueba2="/NP";
 	rutilla.cd(Prueba2);
 	rutaA= rutilla.pwd();
+	rutilla.ls();
 
 
 	System.out.println(rutaA);
-	System.out.println("\n Empieza stat \n");
-	rutilla.stat("Francia.exe");
-	System.out.println("\n Fin stat \n");
-	
-	String Prueba="/NP/asfsd/popoppop";
+
+	/*String Prueba="/NP/asfsd/popoppop";
 	String carpetasRuta[] = Prueba.split("/");
 	System.out.println(carpetasRuta[1]);
 	System.out.println(carpetasRuta[2]);
 	System.out.println(carpetasRuta[3]);*/
+
 
 
 
