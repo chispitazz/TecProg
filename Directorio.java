@@ -103,16 +103,18 @@ class Directorio extends Nodo{
 		Nodo getNode(){
 			return this;
 		}
-		public int tamElemento(String buscado) {
-			Nodo elemento = null;
-			boolean esta = false;
-			for(Nodo e:hijitos){
-				if(buscado.equals(e.getNombre())){
-					esta = true;
-					elemento = e;
+		public void eliminar(String nombreNodo) {
+			//Buscar indice 
+			int index = 0;
+			for (Nodo i:hijitos){
+				if(!nombreNodo.equals(i.getNombre())) {
+					index = index+1;
+				}
+				else {
 					break;
-				}	
+				}
 			}
-			return elemento.getSize();
+			//Eliminar nodo de hijitos
+			hijitos.remove(index);
 		}
 }

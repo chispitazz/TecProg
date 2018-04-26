@@ -28,18 +28,22 @@ class Main {
 	Fir.addNodo(Arriba);
 	raiz.addNodo(Fir);
 
-
 	// Imprimimos resultado
 	int resul=raiz.getSize();
 	System.out.println("Este es el resultado: "+resul);
 
 	//	Probamos la ruta
 	Ruta rutilla= new Ruta(raiz);
-	// Probamos ls sobre una ruta
+	rutilla.ls();
+	System.out.println("\n Primer rm \n");
+	rutilla.rm("Francia.exe");
+	System.out.println("\n Fin rm \n");
+	rutilla.ls();
+	/*// Probamos ls sobre una ruta
 	rutilla.ls();
 	//Prueba de stat
 	System.out.println("\n Empieza stat \n");
-	rutilla.stat("/");
+	rutilla.stat("NP");
 	System.out.println("\n Fin stat \n");
 
 	//Probamos el pwd sobre un elemento concreto
@@ -47,11 +51,11 @@ class Main {
 	System.out.println(rutaA);
 
 	//Prueba de Vim
-		rutilla.vim("Espanya.txt",50);
-		rutilla.ls();
-		System.out.println("\n Este es el Segundo ls \n");
-		rutilla.vim("nuevoArchivo",60);
-		rutilla.ls();
+	rutilla.vim("Espanya.txt",50);
+	rutilla.ls();
+	System.out.println("\n Este es el Segundo ls \n");
+	rutilla.vim("nuevoArchivo",60);
+	rutilla.ls();
 
 
 	//Prueba de CD
@@ -79,7 +83,7 @@ class Main {
 
 	//Prueba de stat
 	System.out.println("\n Este es el Stat\n");
-	System.out.println(rutaA);
+	System.out.println(rutaA);*/
 
 	/*String Prueba="/NP/asfsd/popoppop";
 	String carpetasRuta[] = Prueba.split("/");
