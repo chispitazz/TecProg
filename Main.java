@@ -73,6 +73,8 @@ class Main {
 	//Prueba ln
 	System.out.println("\n Este es el primer ln\n");
 	rutilla.cd("/");
+	System.out.println("bien");
+
 	rutilla.ln("/Espanya.txt","NuevoEnlace");
 	rutilla.ls();
 

@@ -19,120 +19,116 @@ class Ruta extends Nodo{
 	//-----Métodos de Ruta-----
 	public LinkedList<Nodo> busqueda(LinkedList<Nodo> rutaInicial, String path,Nodo Raiz){
 			LinkedList<Nodo> auxLista=new LinkedList<Nodo>();
-			if( (path != null) && (!path.equals("")) ){		
-				if(path.equals("/")){
-					auxLista=new LinkedList<Nodo>();
-					return auxLista;
-				}
-				else{
-					String[] siguienteRuta = path.split("/");
-					int longitud=siguienteRuta.length;
+			try{
+				if( (path != null) && (!path.equals("")) ){		
+						if(path.equals("/")){
+							auxLista=new LinkedList<Nodo>();
+							return auxLista;
+						}
+						else{
+							String[] siguienteRuta = path.split("/");
+							int longitud=siguienteRuta.length;
 
-					if (!siguienteRuta[0].isEmpty()){
-						auxLista=rutaInicial;
-					}
-					for (String AuxRuta : siguienteRuta){
+							if (!siguienteRuta[0].isEmpty()){
+								auxLista=rutaInicial;
+							}
+							for (String AuxRuta : siguienteRuta){
 
-						if(!AuxRuta.isEmpty() ){
-							switch (AuxRuta){
-								case "..":
-											if(!hijitosRuta.isEmpty()){
-												auxLista.removeLast();
-											}
-											break;
-								case ".": 	break;
+								if(!AuxRuta.isEmpty() ){
+									System.out.println("Esto vale ruta: "+AuxRuta+" lonitud: "+longitud);
+									switch (AuxRuta){
+										case "..":
+													if(!hijitosRuta.isEmpty()){
+														auxLista.removeLast();
+													}
+													break;
+										case ".": 	break;
 
-								default:
-										//Comprobar que es un directorio ,o si es el ultimo añadirlo
-										if(auxLista.size()==0){
-												//La lista esta vacia
-												if( longitud == 1){
-														//Comprobamos que existe el archivo
-													Directorio auxDir= (Directorio) Raiz.getNode();
-													try{
-														if(auxDir.buscarNodo(AuxRuta)){
-														//Comprobamos que se corresponde a destino.
-														Nodo bueno = auxDir.cogerNodo(AuxRuta);
-														auxLista.addLast(bueno);
+										default:
+												//Comprobar que es un directorio ,o si es el ultimo añadirlo
+												if(auxLista.size()==0){
+
+														//La lista esta vacia
+														if( longitud == 1){
+																//Comprobamos que existe el archivo
+															
+															Directorio auxDir= (Directorio) Raiz.getNode();
+															if(auxDir.buscarNodo(AuxRuta)){
+																//Comprobamos que se corresponde a destino.
+																Nodo bueno = auxDir.cogerNodo(AuxRuta);
+																auxLista.addLast(bueno);
+															}
+																else{
+																	throw new ExcepcionNoExiste("Fallo al insertar ultimo nodo");
+																}
 														}
 														else{
-															throw new ExcepcionNoExiste("Fallo al insertar ultimo nodo");
+															Directorio auxDir= (Directorio) Raiz.getNode();
+															
+																if(auxDir.buscarDirectorio(AuxRuta)){
+																Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+																auxLista.addLast(bueno);
+																}
+																else{
+																	throw new ExcepcionNoExiste("Fallo al encontrar Directorio");
+																}	
 														}
-													}
-													catch(ExcepcionNoExiste a){
-														System.out.println(a.toString());
-													}
-													
+
+														
 												}
 												else{
-													Directorio auxDir= (Directorio) Raiz.getNode();
-													try{
-														if(auxDir.buscarDirectorio(AuxRuta)){
-														Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-														auxLista.addLast(bueno);
-														}
-														else{
-															throw new ExcepcionNoExiste("Fallo al encontrar Directorio");
-														}	
-													}
-													catch(ExcepcionNoExiste a){
-															System.out.println(a.toString());
-													}
-												
-												}
-
-												
-										}
-										else{
-											Directorio auxDir= (Directorio) auxLista.getLast().getNode();
-											if(longitud == 1){
-												try{
-													if(auxDir.buscarNodo(AuxRuta)){
-													Nodo bueno = auxDir.cogerNodo(AuxRuta);
-														auxLista.addLast(bueno);
+													Directorio auxDir= (Directorio) auxLista.getLast().getNode();
+													if(longitud == 1){
+														
+															if(auxDir.buscarNodo(AuxRuta)){
+															Nodo bueno = auxDir.cogerNodo(AuxRuta);
+																auxLista.addLast(bueno);
+															}
+															else{
+																throw new ExcepcionNoExiste("Fallo al insertar ultimo nodo");
+															}
+														
+														
+														
+														
 													}
 													else{
-														throw new ExcepcionNoExiste("Fallo al insertar ultimo nodo");
+														
+															if(auxDir.buscarDirectorio(AuxRuta)){
+															Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+															auxLista.addLast(bueno);
+															}
+															else{
+																throw new ExcepcionNoExiste("Fallo al encontrar Directorio");
+															}	
+														
+														
 													}
-												}
-												catch(ExcepcionNoExiste a){
-														System.out.println(a.toString());
-												}
-												
-												
-											}
-											else{
-												try{
-													if(auxDir.buscarDirectorio(AuxRuta)){
-													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-													auxLista.addLast(bueno);
-													}
-													else{
-														throw new ExcepcionNoExiste("Fallo al encontrar Directorio");
-													}	
-												}
-												catch(ExcepcionNoExiste a){
-														System.out.println(a.toString());
-												}
-											}
-											
+													
 
-										}//Else
-							}	//Switch
-					
+												}//Else
+									}	//Switch
+							
 
 
-						}//IF
-						
-						longitud--;
-					} //For	
-					return auxLista;
-			} //Else
-		
-	} //If grande
-	else{
-		return rutaInicial;
+								}//IF
+								
+								longitud--;
+							} //For	
+							return auxLista;
+					} //Else
+				
+			} //If grande
+			else{
+				return rutaInicial;
+			}
+	}//try
+	catch(ExcepcionNoExiste a){
+		System.out.println(a.toString());
+		return hijitosRuta;
 	}
+
+			
 } //FIN
 
 	//Devuelve la ruta completa, con todos los nombres de los directorios desde
@@ -165,7 +161,7 @@ class Ruta extends Nodo{
 
 		// El ultimo Directorio corresponde al directorio donde nos encontramos
 		String pantalla;
-		if(hijitosRuta.size()==0){
+		if(hijitosRuta.size() == 0 ){
 			pantalla = raiz.listarDirectorio();
 		}
 		else{
@@ -187,9 +183,9 @@ class Ruta extends Nodo{
 		//Dividir la cadena en caso de que hubiera una ruta
 
 		//Path no nulo y no vacio
-		LinkedList<Nodo> Aux=busqueda(hijitosRuta,path,raiz);
-		System.out.println("Esta es la ruta: ");
-			if(!hijitosRuta.isEmpty()){
+		LinkedList<Nodo> Shadow = new LinkedList(hijitosRuta);
+		LinkedList<Nodo> Aux=busqueda(Shadow,path,raiz);
+			if(!hijitosRuta.isEmpty()&& !Aux.equals(hijitosRuta)){
 				Nodo PosibleBueno=hijitosRuta.getLast();
 				try{
 				if(PosibleBueno instanceof Directorio ){
@@ -206,9 +202,6 @@ class Ruta extends Nodo{
 			else{
 				hijitosRuta=Aux;
 			}
-		
-		
-		
 	}
 		
 
@@ -368,110 +361,26 @@ class Ruta extends Nodo{
 	//diferentes posiciones del árbol de directorios.
 	public void ln(String orig, String dest){
 		//Path no nulo y no vacio
-		if( (orig != null) && (!orig.equals("")) && (dest != null) && (!dest.equals("")) ){
+		LinkedList<Nodo> Shadow= new LinkedList<Nodo>(hijitosRuta);
+		LinkedList<Nodo> Buscado=busqueda(Shadow,orig,raiz);
 
-				boolean rutaCorrecta=true;
-				boolean archivoCorrecto=true;
-				boolean encontrado= false;
-				Directorio DirDest;
+		if(!Buscado.isEmpty() && ! Buscado.equals(hijitosRuta)){
+				Nodo PosibleBueno=Buscado.getLast();
+				Buscado.removeLast();
+				Enlace Nuevo = new Enlace(PosibleBueno,dest);
 
-				LinkedList<Nodo> auxLista;
-				String[] siguienteRuta = orig.split("/");
-				int longitud= siguienteRuta.length;
-				
-			
-				if (siguienteRuta[0].isEmpty()){
-					auxLista=new LinkedList<Nodo>();
-					DirDest=raiz;
+				if(hijitosRuta.isEmpty()){
+					raiz.addNodo(Nuevo);
 				}
 				else{
-					auxLista=hijitosRuta;
-					DirDest= (Directorio) hijitosRuta.getLast();
+					Directorio objetivo=(Directorio) hijitosRuta.getLast();
+					objetivo.addNodo(Nuevo);
 				}
-
-
-				for (String AuxRuta : siguienteRuta){
-				
-					if(!AuxRuta.isEmpty()){
-
-						switch (AuxRuta){
-							case "..":
-										if(!hijitosRuta.isEmpty()){
-											auxLista.removeLast();
-										}
-										break;
-							case ".": 	break;
-
-							default:
-									//Comprobar que es un directorio
-
-									if(auxLista.size()==0){
-											Directorio auxDir= (Directorio) raiz.getNode();
-											if(longitud==1){
-												
-												//Comprobamos que existe el archivo
-												if(auxDir.buscarNodo(AuxRuta)){
-													//Comprobamos que se corresponde a destino.
-													Nodo bueno = auxDir.cogerNodo(AuxRuta);
-												
-													Enlace DeboAnyadir = new Enlace(bueno,dest);
-													DirDest.addNodo(DeboAnyadir);
-													encontrado=true;
-												}
-												else{
-													archivoCorrecto=false;
-												}
-											}
-											else{
-												if(auxDir.buscarDirectorio(AuxRuta)){
-													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-													auxLista.addLast(bueno);
-												}
-												else{
-													rutaCorrecta=false;
-												}	
-											}		
-									}
-									else{
-										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
-											if(longitud==1){
-												if(auxDir.buscarNodo(AuxRuta)){
-													Nodo bueno = auxDir.cogerNodo(AuxRuta);
-
-													Enlace DeboAnyadir = new Enlace(bueno,dest);
-													DirDest.addNodo(DeboAnyadir);
-													encontrado=true;
-												}
-												else{
-													archivoCorrecto=false;
-												}
-											}
-											else{
-												if(auxDir.buscarDirectorio(AuxRuta)){
-													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-													auxLista.addLast(bueno);
-													encontrado=true;
-												}
-												else{
-													rutaCorrecta=false;
-												}	
-											}
-											
-
-									}
-									break;
-						}
-
-						if(!rutaCorrecta || encontrado || ! archivoCorrecto){
-							break;
-						}
-					}
-					longitud--;
-				}
-				if(!rutaCorrecta){
-					System.out.println("Ruta incorrecta");
-				}
+			}
+		else{
+			hijitosRuta=Buscado;
 		}
+
 	}
 
 	//Elimina un elemento dentro de la ruta actual (puede pasársele como parámetro 
