@@ -27,7 +27,7 @@ class Ruta extends Nodo{
 		
 		//	Se hace un bucle para recurrer la ruta e ir añadiendo los directorios de la 
 		// 	forma /directorio1/directorio2
-		
+		ruteta= ruteta+raiz.getNombre()+"/";
 		for(Iterator i = hijitosRuta.iterator();i.hasNext();){
 		
 				Nodo aux = (Nodo) i.next();
@@ -70,69 +70,78 @@ class Ruta extends Nodo{
 		//Dividir la cadena en caso de que hubiera una ruta
 
 		//Path no nulo y no vacio
-		if( (path != null) && (!path.equals("")) ){			
-				LinkedList<Nodo> auxLista;
-				String[] siguienteRuta = path.split("/");
-
-				boolean rutaCorrecta=true;
-			
-				if (siguienteRuta[0].isEmpty()){
-					auxLista=new LinkedList<Nodo>();
+		if( (path != null) && (!path.equals("")) ){		
+				if(path.equals("/")){
+					hijitosRuta.clear();
 				}
 				else{
-					auxLista=hijitosRuta;
-				}
+					LinkedList<Nodo> auxLista;
+					String[] siguienteRuta = path.split("/");
 
-				for (String AuxRuta : siguienteRuta){
-					
-					if(!AuxRuta.isEmpty()){
-
-						switch (AuxRuta){
-							case "..":
-										auxLista.removeLast();
-										break;
-							case ".": 	break;
-
-							default:
-									//Comprobar que es un directorio
-
-									if(auxLista.size()==0){
-										Directorio auxDir= (Directorio) raiz.getNode();
-											if(auxDir.buscarDirectorio(AuxRuta)){
-												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-												auxLista.addLast(bueno);
-											}
-											else{
-												rutaCorrecta=false;
-											}	
-									}
-									else{
-										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
-											if(auxDir.buscarDirectorio(AuxRuta)){
-												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-												auxLista.addLast(bueno);
-											}
-											else{
-												rutaCorrecta=false;
-											}	
-
-									}
-									break;
-						}
-
-						if(!rutaCorrecta){
-							break;
-						}
+					boolean rutaCorrecta=true;
 				
+					if (siguienteRuta[0].isEmpty()){
+						auxLista=new LinkedList<Nodo>();
 					}
+					else{
+						auxLista=hijitosRuta;
+					}
+
+					for (String AuxRuta : siguienteRuta){
+						
+						if(!AuxRuta.isEmpty() ){
+
+							switch (AuxRuta){
+								case "..":
+											if(!hijitosRuta.isEmpty()){
+												auxLista.removeLast();
+											}
+											break;
+								case ".": 	break;
+
+								default:
+										//Comprobar que es un directorio
+
+										if(auxLista.size()==0){
+											Directorio auxDir= (Directorio) raiz.getNode();
+												if(auxDir.buscarDirectorio(AuxRuta)){
+													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+													auxLista.addLast(bueno);
+												}
+												else{
+													rutaCorrecta=false;
+												}	
+										}
+										else{
+											Directorio auxDir= (Directorio) auxLista.getLast().getNode();
+												if(auxDir.buscarDirectorio(AuxRuta)){
+													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+													auxLista.addLast(bueno);
+												}
+												else{
+													rutaCorrecta=false;
+												}	
+
+										}
+										break;
+							}
+
+							if(!rutaCorrecta){
+								break;
+							}
 					
-					
-				}
-				//Si era correcta ,sera nuestra neuva ruta
-				if(rutaCorrecta){
-					hijitosRuta= auxLista;
-				}
-			
+						}
+						
+						
+					}
+					//Si era correcta ,sera nuestra neuva ruta
+					if(rutaCorrecta){
+						hijitosRuta= auxLista;
+					}
+					else{
+						System.out.println("Ruta Incorrecta");
+					}
+				}	
 		}
 		
 	}
@@ -222,18 +231,108 @@ class Ruta extends Nodo{
 	//sí, de tal modo que pueden crearse enlaces simbólicos entre elementos dentro de 
 	//diferentes posiciones del árbol de directorios.
 	public void ln(String orig, String dest){
-		Directorio ultimo = (Directorio) hijitosRuta.getLast();
-		for(Iterator i = ultimo.hijitos.iterator();i.hasNext();){
+		//Path no nulo y no vacio
+		if( (orig != null) && (!orig.equals("")) && (dest != null) && (!dest.equals("")) ){
 
-			Nodo posibleElemento= (Nodo) i.next();
-			String posibleNombre= posibleElemento.getNombre();
+				boolean rutaCorrecta=true;
+				boolean archivoCorrecto=true;
+				boolean encontrado= false;
+				Directorio DirDest;
 
-			// Miramos si coincide
-			if(posibleNombre == orig ){
-				Enlace nuevo= new Enlace(posibleElemento);
-				ultimo.hijitos.addLast(nuevo);
-				break;
-			}
+				LinkedList<Nodo> auxLista;
+				String[] siguienteRuta = orig.split("/");
+				int longitud= siguienteRuta.length;
+				
+			
+				if (siguienteRuta[0].isEmpty()){
+					auxLista=new LinkedList<Nodo>();
+					DirDest=raiz;
+				}
+				else{
+					auxLista=hijitosRuta;
+					DirDest= (Directorio) hijitosRuta.getLast();
+				}
+
+
+				for (String AuxRuta : siguienteRuta){
+				
+					if(!AuxRuta.isEmpty()){
+
+						switch (AuxRuta){
+							case "..":
+										if(!hijitosRuta.isEmpty()){
+											auxLista.removeLast();
+										}
+										break;
+							case ".": 	break;
+
+							default:
+									//Comprobar que es un directorio
+
+									if(auxLista.size()==0){
+											Directorio auxDir= (Directorio) raiz.getNode();
+											if(longitud==1){
+												
+												//Comprobamos que existe el archivo
+												if(auxDir.buscarNodo(AuxRuta)){
+													//Comprobamos que se corresponde a destino.
+													Nodo bueno = auxDir.cogerNodo(AuxRuta);
+													Enlace DeboAnyadir = new Enlace(bueno,dest);
+													DirDest.addNodo(bueno);
+													encontrado=true;
+												}
+												else{
+													archivoCorrecto=false;
+												}
+											}
+											else{
+												if(auxDir.buscarDirectorio(AuxRuta)){
+													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+													auxLista.addLast(bueno);
+												}
+												else{
+													rutaCorrecta=false;
+												}	
+											}		
+									}
+									else{
+										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
+											if(longitud==1){
+												if(auxDir.buscarNodo(AuxRuta)){
+													Nodo bueno = auxDir.cogerNodo(AuxRuta);
+													Enlace DeboAnyadir = new Enlace(bueno,dest);
+													DirDest.addNodo(bueno);
+													encontrado=true;
+												}
+												else{
+													archivoCorrecto=false;
+												}
+											}
+											else{
+												if(auxDir.buscarDirectorio(AuxRuta)){
+													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+													auxLista.addLast(bueno);
+													encontrado=true;
+												}
+												else{
+													rutaCorrecta=false;
+												}	
+											}
+											
+
+									}
+									break;
+						}
+
+						if(!rutaCorrecta || encontrado || ! archivoCorrecto){
+							break;
+						}
+					}
+					longitud--;
+				}
+				if(!rutaCorrecta){
+					System.out.println("Ruta incorrecta");
+				}
 		}
 	}
 

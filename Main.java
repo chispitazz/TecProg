@@ -54,11 +54,31 @@ class Main {
 
 	//Prueba de CD
 	System.out.println("\n Este es el primer cd\n");
-	String Prueba2="/NP";
+	String Prueba2="/";
 	rutilla.cd(Prueba2);
 	rutaA= rutilla.pwd();
+	System.out.println(rutaA);
 
 
+
+	rutilla.cd("../NP");
+	rutaA= rutilla.pwd();
+	System.out.println(rutaA);
+
+
+
+	//Prueba ln
+	System.out.println("\n Este es el primer ln\n");
+	rutilla.cd("/");
+	rutilla.ln("/Espanya.txt","NuevoEnlace");
+	rutilla.ls();
+
+
+
+
+
+	//Prueba de stat
+	System.out.println("\n Este es el Stat\n");
 	System.out.println(rutaA);
 	rutilla.stat("Francia.exe");
 	

@@ -14,15 +14,16 @@ class Enlace extends Nodo
 	Nodo NodoEnlazado;
 
 	//-----Constructor de Enlace-----
-	public Enlace (Nodo nodete){
+	public Enlace (Nodo nodete,String nombre){
 		NodoEnlazado=nodete;
+		nombreNodo=nombre;
 	}
 
 	//-----Métodos de Enlace-----
 	int getSize(){
 		return NodoEnlazado.getSize();
 	}
-	
+
 	Nodo getNode(){
 		return NodoEnlazado.getNode();
 	}

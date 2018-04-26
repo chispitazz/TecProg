@@ -47,7 +47,30 @@ class Directorio extends Nodo{
 			return listado;
 
 		}
+		public boolean buscarNodo(String buscado){
+				boolean esta = false;
+				for(Nodo i : hijitos){
+						if(buscado.equals(i.getNombre()) ) {
+							esta=true;
+							break;
+						}
+					}
+				
+				return esta;
+		}
 
+
+		public Nodo cogerNodo(String buscado){
+				for(Nodo i : hijitos){
+						if(buscado.equals(i.getNombre()) ) {
+							return i;
+						
+						}
+				}
+				
+				return this;
+		
+		}
 		//Devuelve cierto si existe un Directorio con nombre buscado en Directorio
 		public boolean buscarDirectorio(String buscado) {
 			boolean esta = false;
@@ -56,11 +79,11 @@ class Directorio extends Nodo{
 				Nodo aux = (Nodo) i.next();
 				if (aux instanceof Directorio) { //Si aux es directorio
 					esta = buscado.equals(aux.getNombre());
-					return true;
+					
 				}
 
 			}
-			return false;
+			return esta;
 		}
 		public Directorio cogerDirectorio(String buscado){
 			boolean esta = false;
@@ -75,8 +98,8 @@ class Directorio extends Nodo{
 
 			}
 			return  (Directorio) hijitos.getLast();
-			
 		}
+
 		Nodo getNode(){
 			return this;
 		}
