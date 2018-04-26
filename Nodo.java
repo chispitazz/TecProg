@@ -17,6 +17,6 @@ abstract class Nodo
 	public String getNombre(){
 		return nombreNodo;
 	}
-	
+	abstract Nodo getNode();
 	abstract  int getSize();
 }

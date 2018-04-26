@@ -8,11 +8,11 @@ import java.util.*;
 class Ruta extends Nodo{
 	//-----Atributos de Ruta-----
 	Directorio raiz;
-	LinkedList<Directorio> hijitosRuta;
+	LinkedList<Nodo> hijitosRuta;
 	//-----Constructor de Ruta-----
 	public Ruta(Directorio nodete){
 		raiz =  nodete;
-		hijitosRuta = new LinkedList<Directorio>();
+		hijitosRuta = new LinkedList<Nodo>();
 	}
 
 
@@ -43,60 +43,86 @@ class Ruta extends Nodo{
  	//Muestra por pantalla los nombres de todos los ficheros, directorios y enlaces
  	//contenidos en la ruta actual, cada uno de ellos en una línea diferente, sin
 	//ningún dato más
+
 	public void ls(){
 
 		// El ultimo Directorio corresponde al directorio donde nos encontramos
-
-		Directorio ultimo = (Directorio) hijitosRuta.getLast();
-
+		String pantalla;
+		if(hijitosRuta.size()==0){
+			pantalla = raiz.listarDirectorio();
+		}
+		else{
+			Directorio salida= (Directorio) hijitosRuta.getLast().getNode();
+			pantalla =salida.listarDirectorio();
+		}
 		// Accedemos a la funcion de ultimo que nos lista los elementos
-		String pantalla= ultimo.listarDirectorio();
+	
 		System.out.print(pantalla);
 	}
+
 
 	//Cambia la ruta a otro directorio (path), pasándole el nombre del directorio al 
 	//que quiere cambiar. Hay tres casos especiales: “.” se refiere al directorio
 	//actual, “..” se refiere al directorio anterior en el árbol de directorios y “/” 
 	//se refiere a la raíz del árbol de directorios. También se le puede pasar como 
 	//parámetro una ruta completa (varios directorios separados por “/”)
-	public void cd(String path) {
+	public void cd(String path) {	
 		//Dividir la cadena en caso de que hubiera una ruta
-		if(path != "."){
-			if(path == ".."){
-				hijitosRuta.removeLast();
-			}
-			else if(path=="/"){
-				Nodo aux= hijitosRuta.getFirst();
-				hijitosRuta=new LinkedList<Nodo>();
-				hijitosRuta.add(aux);
-			}	
-			else{
+
+		//Path no nulo y no vacíio
+		if( (path != null) && (!path.equals("")) ){			
+				LinkedList<Nodo> auxLista;
+				String[] siguienteRuta = path.split("/");
+
+				Directorio Buscado;
 				boolean rutaCorrecta=true;
+			
+				if (siguienteRuta[0].isEmpty()){
+					auxLista=new LinkedList<Nodo>();
+				}
+				else{
+					auxLista=hijitosRuta;
+				}
 
-				String carpetasRuta[] = path.split("/");
-				List<String> carpetasList = Arrays.asList( carpetasRuta );
-				
+				for (String AuxRuta : siguienteRuta){
 
-				Nodo aux= hijitosRuta.getFirst();
-				LinkedList<Nodo> auxLista=new LinkedList<Nodo>();
-				auxLista.add(aux);
-				Directorio Buscado=(Directorio) hijitosRuta.getFirst();
+					if(!AuxRuta.isEmpty()){
+						switch (AuxRuta){
+							case "..":
+										auxLista.removeLast();
+										break;
+							case ".": 	break;
 
-				for (Iterator i =carpetasList.iterator();i.hasNext();){
-					String siguienteRuta = (String) i.next();
+							default:
+									//Comprobar que es un directorio
+									if(auxLista.size()==0){
+										Directorio auxDir= (Directorio) raiz.getNode();
+											if(auxDir.buscarDirectorio(AuxRuta)){
+												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+											}
+											else{
+												rutaCorrecta=false;
+											}	
+									}
+									else{
+										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
+											if(auxDir.buscarDirectorio(AuxRuta)){
+												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+											}
+											else{
+												rutaCorrecta=false;
+											}	
 
-					if((siguienteRuta != null) && (!siguienteRuta.equals("")) ) {
-						System.out.println("He entrado");
-
-						if(Buscado.buscarDirectorio(siguienteRuta)){
-							Buscado=Buscado.cogerDirectorio(siguienteRuta);
-							auxLista.addLast(Buscado);
+									}
+									break;
 						}
-						else{
-							rutaCorrecta=false;
+
+						if(!rutaCorrecta){
 							break;
 						}
+				
 					}
+					
 					
 				}
 				//Si era correcta ,sera nuestra neuva ruta
@@ -104,11 +130,10 @@ class Ruta extends Nodo{
 					hijitosRuta= auxLista;
 				}
 			
-			}
-		
 		}
 		
 	}
+		
 
 	//Muestra por pantalla el número que es el tamaño del archivo, directorio o enlace
 	//dentro de la ruta actual identificado por la cadena de texto que se le pasa como
@@ -221,5 +246,8 @@ class Ruta extends Nodo{
 	//Devuelve el tamaño del Enlace
 	int getSize(){
 		return 0;
+	}
+	Nodo getNode(){
+		return this;
 	}
 }

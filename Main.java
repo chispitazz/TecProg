@@ -49,7 +49,7 @@ class Main {
 	System.out.println(carpetasRuta[1]);
 	System.out.println(carpetasRuta[2]);
 	System.out.println(carpetasRuta[3]);
-	String Prueba2="/";
+	String Prueba2="/NP";
 	rutilla.cd(Prueba2);
 	rutaA= rutilla.pwd();
 	System.out.println(rutaA);

@@ -27,6 +27,9 @@ class Archivo extends Nodo
 	int getSize(){
 			return size;
 	}
+	Nodo getNode(){
+		return this;
+	}
 
 	
 

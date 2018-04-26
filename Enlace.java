@@ -22,5 +22,9 @@ class Enlace extends Nodo
 	int getSize(){
 		return NodoEnlazado.getSize();
 	}
+	
+	Nodo getNode(){
+		return NodoEnlazado.getNode();
+	}
 
 }

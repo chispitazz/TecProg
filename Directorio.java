@@ -56,10 +56,11 @@ class Directorio extends Nodo{
 				Nodo aux = (Nodo) i.next();
 				if (aux instanceof Directorio) { //Si aux es directorio
 					esta = buscado.equals(aux.getNombre());
+					return true;
 				}
 
 			}
-			return esta;
+			return false;
 		}
 		public Directorio cogerDirectorio(String buscado){
 			boolean esta = false;
@@ -76,5 +77,7 @@ class Directorio extends Nodo{
 			return  (Directorio) hijitos.getLast();
 			
 		}
-		
+		Nodo getNode(){
+			return this;
+		}
 }
