@@ -69,7 +69,7 @@ class Ruta extends Nodo{
 	public void cd(String path) {	
 		//Dividir la cadena en caso de que hubiera una ruta
 
-		//Path no nulo y no vacíio
+		//Path no nulo y no vacio
 		if( (path != null) && (!path.equals("")) ){			
 				LinkedList<Nodo> auxLista;
 				String[] siguienteRuta = path.split("/");
@@ -85,8 +85,9 @@ class Ruta extends Nodo{
 				}
 
 				for (String AuxRuta : siguienteRuta){
-
+					
 					if(!AuxRuta.isEmpty()){
+
 						switch (AuxRuta){
 							case "..":
 										auxLista.removeLast();
@@ -95,10 +96,12 @@ class Ruta extends Nodo{
 
 							default:
 									//Comprobar que es un directorio
+
 									if(auxLista.size()==0){
 										Directorio auxDir= (Directorio) raiz.getNode();
 											if(auxDir.buscarDirectorio(AuxRuta)){
 												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+												auxLista.addLast(bueno);
 											}
 											else{
 												rutaCorrecta=false;
@@ -108,6 +111,7 @@ class Ruta extends Nodo{
 										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
 											if(auxDir.buscarDirectorio(AuxRuta)){
 												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+												auxLista.addLast(bueno);
 											}
 											else{
 												rutaCorrecta=false;
