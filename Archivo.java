@@ -25,7 +25,7 @@ class Archivo extends Nodo
 
 	//Devuelve el valor de size de Archivo
 	int getSize(){
-			return size;
+		return size;
 	}
 	Nodo getNode(){
 		return this;

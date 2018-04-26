@@ -18,5 +18,5 @@ abstract class Nodo
 		return nombreNodo;
 	}
 	abstract Nodo getNode();
-	abstract  int getSize();
+	abstract  int getSize(); 
 }
