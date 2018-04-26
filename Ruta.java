@@ -7,10 +7,12 @@ import java.util.*;
 
 class Ruta extends Nodo{
 	//-----Atributos de Ruta-----
-	LinkedList<Nodo> hijitosRuta= new LinkedList<Nodo>();
+	Directorio raiz;
+	LinkedList<Directorio> hijitosRuta;
 	//-----Constructor de Ruta-----
 	public Ruta(Directorio nodete){
-		hijitosRuta.add(nodete);
+		raiz =  nodete;
+		hijitosRuta = new LinkedList<Directorio>();
 	}
 
 
