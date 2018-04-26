@@ -14,3 +14,11 @@ class ExcepcionNoExiste extends ExcepcionArbolFichero{
 		return nombreExcept;
 	}
 }
+class Error extends ExcepcionArbolFichero{
+	public Error(String nombre){
+		nombreExcept=nombre;
+	}
+	public String toString(){
+		return nombreExcept;
+	}
+}

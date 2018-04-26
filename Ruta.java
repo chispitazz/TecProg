@@ -58,9 +58,9 @@ class Ruta extends Nodo{
 																Nodo bueno = auxDir.cogerNodo(AuxRuta);
 																auxLista.addLast(bueno);
 															}
-																else{
+															else{
 																	throw new ExcepcionNoExiste("Fallo al insertar ultimo nodo");
-																}
+															}
 														}
 														else{
 															Directorio auxDir= (Directorio) Raiz.getNode();
@@ -209,99 +209,18 @@ class Ruta extends Nodo{
 	//dentro de la ruta actual identificado por la cadena de texto que se le pasa como
 	//parámetro. También se le puede pasar una ruta completa.
 	public void stat(String element){
-		
-		if( (element != null) && (!element.equals("")) ){			
-				
-			if (element.equals("/")) {
-				System.out.println("Tamanyo de " + raiz.getNombre() + " = " + raiz.getSize());
-			}
-			else {
-				LinkedList<Nodo> auxLista;
-				String[] nextElem = element.split("/");
-				boolean encontrado=false;
-				boolean rutaCorrecta=true;
-				int tamanyo = -1;
+		LinkedList<Nodo> Shadow= new LinkedList<Nodo>(hijitosRuta);
+		LinkedList<Nodo> Buscado=busqueda(Shadow,element,raiz);
+		System.out.println("He llegado al Stat");
 
-				//Ruta absoluta
-				if (nextElem[0].isEmpty()){
-					auxLista=new LinkedList<Nodo>();
-				}
-				//Ruta relativa
-				else{
-					auxLista=hijitosRuta;
-				}
-				//Buscar elemento
-				for (String AuxRuta : nextElem) {
-					
-					if(!AuxRuta.isEmpty()){
-						//AuxRuta no es vacío
-						if (AuxRuta.equals(nextElem[nextElem.length-1])) {
-							//Nodo a buscar
-							Directorio auxDir;
-							if (auxLista.size() == 0) {
-								auxDir = (Directorio) raiz.getNode();
-							}
-							else {
-								auxDir = (Directorio) auxLista.getLast().getNode();
-							} 
-							tamanyo = auxDir.tamElemento(AuxRuta);
-						}
-
-						else {
-							//Comprobar ruta correcta
-							switch (AuxRuta){
-							case "..":
-										if (!hijitosRuta.isEmpty()) {
-											auxLista.removeLast();
-										}
-										break;
-							case ".": 	
-										break;
-							default:
-									//Comprobar que es un directorio
-
-									if(auxLista.size()==0){
-										Directorio auxDir= (Directorio) raiz.getNode();
-											if(auxDir.buscarDirectorio(AuxRuta)){
-												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-												auxLista.addLast(bueno);
-											}
-											else{
-												rutaCorrecta=false;
-											}	
-									}
-									else{
-										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
-											if(auxDir.buscarDirectorio(AuxRuta)){
-												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-												auxLista.addLast(bueno);
-											}
-											else{
-												rutaCorrecta=false;
-											}	
-
-									}
-									break;
-							}
-
-						}
-						if(!rutaCorrecta){
-							break;
-						}
-				
-					}
-					
-					
-				}
-				//Si el elemento existe se muestra por pantalla el número del tamaño del mismo
-				if(tamanyo >= 0){
-					System.out.println("Tamanyo de " + element + " = " + tamanyo);
-				}
-				else {
-					System.out.println("NO ENCONTRADO");
-				}
-			}		
+		if(Buscado.isEmpty() ){
+			System.out.println("El archivo: "+ element + " tiene un tamano de: "+raiz.getSize());
 		}
+		else{
+			Nodo Deseado= Buscado.getLast();
+			System.out.println("El archivo: "+ Deseado.getNombre()+ " tiene un tamano de: "+Deseado.getSize());
+		}
+
 	}
 
 	//Cambia el tamaño de un archivo dentro de la ruta actual (no se le puede pasar como
@@ -364,7 +283,7 @@ class Ruta extends Nodo{
 		LinkedList<Nodo> Shadow= new LinkedList<Nodo>(hijitosRuta);
 		LinkedList<Nodo> Buscado=busqueda(Shadow,orig,raiz);
 
-		if(!Buscado.isEmpty() && ! Buscado.equals(hijitosRuta)){
+		if(!Buscado.isEmpty() &&  ! Buscado.equals(hijitosRuta)){
 				Nodo PosibleBueno=Buscado.getLast();
 				Buscado.removeLast();
 				Enlace Nuevo = new Enlace(PosibleBueno,dest);

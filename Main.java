@@ -81,16 +81,7 @@ class Main {
 
 	//Prueba de stat
 	System.out.println("\n Este es el Stat\n");
-	System.out.println(rutaA);
 
-	/*String Prueba="/NP/asfsd/popoppop";
-	String carpetasRuta[] = Prueba.split("/");
-	System.out.println(carpetasRuta[1]);
-	System.out.println(carpetasRuta[2]);
-	System.out.println(carpetasRuta[3]);*/
-
-
-
-
-   }
+	rutilla.stat("Francia.exe");
+  }
 };
