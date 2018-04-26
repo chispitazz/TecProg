@@ -140,11 +140,12 @@ class Ruta extends Nodo{
 	//parámetro. También se le puede pasar una ruta completa.
 	public void stat(String element){
 		
-		String posibleNombre="";
+		String[] auxRuta=element.split("/");
 		// Buscamos entre los elementos del ultimo Nodo (nuestro directorio)
 		// cuyo nombre se corresponde a "element"
 		boolean encontrado = false;
 		Directorio ultimo = (Directorio) hijitosRuta.getLast();
+
 
 		//Se busca sobre este ultimo directorio el archivo cuyo nombre coincida con "element"
 		for(Iterator i = ultimo.hijitos.iterator();i.hasNext();){
