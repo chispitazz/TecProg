@@ -20,6 +20,7 @@ class Enlace extends Nodo
 	}
 
 	//-----Métodos de Enlace-----
+
 	int getSize(){
 		return NodoEnlazado.getSize();
 	}

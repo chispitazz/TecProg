@@ -59,7 +59,7 @@ class Main {
 	String Prueba2="/";
 	rutilla.cd(Prueba2);
 	rutaA= rutilla.pwd();
-<<<<<<< HEAD
+
 	System.out.println(rutaA);
 
 
@@ -75,12 +75,6 @@ class Main {
 	rutilla.cd("/");
 	rutilla.ln("/Espanya.txt","NuevoEnlace");
 	rutilla.ls();
-
-
-
-=======
-	rutilla.ls();
->>>>>>> b6138ba9da64602a764641deef9809e1aaca369c
 
 
 	//Prueba de stat

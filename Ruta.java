@@ -348,8 +348,9 @@ class Ruta extends Nodo{
 												if(auxDir.buscarNodo(AuxRuta)){
 													//Comprobamos que se corresponde a destino.
 													Nodo bueno = auxDir.cogerNodo(AuxRuta);
+												
 													Enlace DeboAnyadir = new Enlace(bueno,dest);
-													DirDest.addNodo(bueno);
+													DirDest.addNodo(DeboAnyadir);
 													encontrado=true;
 												}
 												else{
@@ -371,8 +372,9 @@ class Ruta extends Nodo{
 											if(longitud==1){
 												if(auxDir.buscarNodo(AuxRuta)){
 													Nodo bueno = auxDir.cogerNodo(AuxRuta);
+
 													Enlace DeboAnyadir = new Enlace(bueno,dest);
-													DirDest.addNodo(bueno);
+													DirDest.addNodo(DeboAnyadir);
 													encontrado=true;
 												}
 												else{
