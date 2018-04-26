@@ -77,12 +77,15 @@ class Main {
 	//Prueba ln
 	System.out.println("\n Este es el primer ln\n");
 	rutilla.cd("/");
+	System.out.println("bien");
+
 	rutilla.ln("/Espanya.txt","NuevoEnlace");
 	rutilla.ls();
 
 
 	//Prueba de stat
 	System.out.println("\n Este es el Stat\n");
+<<<<<<< HEAD
 	System.out.println(rutaA);*/
 
 	/*String Prueba="/NP/asfsd/popoppop";
@@ -93,6 +96,9 @@ class Main {
 
 
 
+=======
+>>>>>>> 9e5a4cffa372f5f82a67e4ba1044729fd960d6c4
 
-   }
+	rutilla.stat("Francia.exe");
+  }
 };
