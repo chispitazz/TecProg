@@ -265,12 +265,12 @@ class Ruta extends Nodo{
 			Archivo nuevo = new Archivo(file, size);
 			//Lo añadimos
 			if(size<0){
-					throw new Tamano(aux.getNombre());
+					throw new Tamano(nuevo.getNombre());
 
-				}
+			}
 				else{
 					Cambio.hijitos.addLast(nuevo);
-				}
+			}
 		
 		}
 	}
