@@ -240,6 +240,7 @@ class Ruta extends Nodo{
 			//Hay hijos en la ruta, se escoge el directorio actual
 			Cambio = (Directorio) hijitosRuta.getLast().getNode();
 		}
+
 		if (Cambio.buscarNodo(file)) {
 			//File en nodo
 			Nodo buscado = Cambio.cogerNodo(file);
@@ -263,7 +264,14 @@ class Ruta extends Nodo{
 			//No file en nodo
 			Archivo nuevo = new Archivo(file, size);
 			//Lo añadimos
-			Cambio.hijitos.addLast(nuevo);
+			if(size<0){
+					throw new Tamano(aux.getNombre());
+
+				}
+				else{
+					Cambio.hijitos.addLast(nuevo);
+				}
+		
 		}
 	}
 
