@@ -27,7 +27,6 @@ abstract class Nodo
 			}
 		}
 		catch (ExcepcionNombreIncorrecto e) {
-			System.out.println(e.toString());
 			return false;
 		}
 	}

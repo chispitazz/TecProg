@@ -17,19 +17,16 @@ class Enlace extends Nodo
 	public Enlace (Nodo nodete,String nombre) throws ExcepcionNombreIncorrecto{
 		NodoEnlazado=nodete;
 		nombreNodo=nombre;
-		try {
-			boolean nombreCorrecto = this.nombreCorrecto(nombre);
-		}
-		catch (ExcepcionNombreIncorrecto e) {}
+		boolean nombreCorrecto = this.nombreCorrecto(nombre);
 	}
 
 	//-----Métodos de Enlace-----
 	//Devuelve el tamaño del Nodo apuntado por el objeto que invoca el método
-	int getSize(){
-		return NodoEnlazado.getSize();
+	public int getSize(){
+		return 0;
 	}
 
-	Nodo getNode(){
+	public Nodo getNode(){
 		return NodoEnlazado.getNode();
 	}
 

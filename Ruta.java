@@ -10,21 +10,16 @@ class Ruta extends Nodo{
 	Directorio raiz;
 	LinkedList<Nodo> hijitosRuta;
 	//-----Constructor de Ruta-----
-	public Ruta(Directorio nodete) throws ExcepcionNombreRaiz {
-		try {
-			if (nodete.getNombre().length() == 0) {
-				//Nombre de directorio raiz correcto
-				raiz = nodete;
-				hijitosRuta = new LinkedList<Nodo>();
-			}
-			else {
-				throw new ExcepcionNombreRaiz(nodete.getNombre());
-			}
+	public Ruta(Directorio nodete) throws ExcepcionArbolFicheros {
+		if (nodete.getNombre().length() == 0) {
+			//Nombre de directorio raiz correcto
+			raiz = nodete;
+			hijitosRuta = new LinkedList<Nodo>();
 		}
-		catch (ExcepcionNombreRaiz a) {
-			System.out.println(a.toString());
+		else {
 			raiz = null;
 			hijitosRuta = null;
+			throw new ExcepcionNombreRaiz(nodete.getNombre());
 		}
 	}
 
@@ -35,131 +30,120 @@ class Ruta extends Nodo{
 	//devuelve la lista correspondiente de evaluar el recorrido e intentar acceder a él
 	private LinkedList<Nodo> busqueda(LinkedList<Nodo> rutaInicial, String path,Directorio Raiz) throws ExcepcionArbolFicheros {
 			//Se asume ruta relativa
-			LinkedList<Nodo> auxLista=new LinkedList<Nodo>();
+			LinkedList<Nodo> auxLista=hijitosRuta;
+			if( (path != null) && (!path.equals("")) ){	
+				//Path no nula y no vacía	
+				if(path.equals("/")){
+					//Path se refiere directamwente a la raíz
+					auxLista=new LinkedList<Nodo>();
+					return auxLista;
+				}
 
-			try{
-				if( (path != null) && (!path.equals("")) ){	
-					//Path no nula y no vacía	
-					if(path.equals("/")){
-						//Path se refiere directamwente a la raíz
-						auxLista=new LinkedList<Nodo>();
-						return auxLista;
+				else{
+					//Path se refiere a una ruta
+					String[] siguienteRuta = path.split("/");
+					int longitud=siguienteRuta.length;
+
+					if (!siguienteRuta[0].isEmpty()){
+						//Ruta absoluta
+							auxLista=rutaInicial;
 					}
 
-					else{
-						//Path se refiere a una ruta
-						String[] siguienteRuta = path.split("/");
-						int longitud=siguienteRuta.length;
+					for (String AuxRuta : siguienteRuta){
+						//Se recorre path y se realizan cambios en auxLista
+						switch (AuxRuta){
+							//Analiza los posibles valores del path
+							case "..":											
+								if(auxLista.size() > 0){
+									//NO EN raíz por lo que se puede retroceder
+									auxLista.removeLast();
+								}									
+							break;
 
-						if (!siguienteRuta[0].isEmpty()){
-							//Ruta absoluta
-								auxLista=rutaInicial;
-						}
+							case ".": 	
+								//Se refiere al directorio actual por lo que no implica cambios
+							break;
 
-						for (String AuxRuta : siguienteRuta){
-							//Se recorre path y se realizan cambios en auxLista
-							switch (AuxRuta){
-								//Analiza los posibles valores del path
-								case "..":											
-									if(auxLista.size() > 0){
-										//NO EN raíz por lo que se puede retroceder
-										auxLista.removeLast();
-									}
-									else {
-										//Intentar retroceder desde raíz
-										throw new ExcepcionOverflow ();
-									}										
-								break;
-
-								case ".": 	
-									//Se refiere al directorio actual por lo que no implica cambios
-								break;
-
-								default:
-									//Comprobar que es un directorio ,o si es el ultimo añadirlo
-									if(auxLista.size()==0){
-										//En la raiz
-										if( longitud == 1){
-											//El elemento al que se quiere acceder existe en raiz
-											Directorio auxDir = Raiz;
-											if(auxDir.buscarNodo(AuxRuta)){
-												//Existe el elemento
-												Nodo bueno = auxDir.cogerNodo(AuxRuta);
-												auxLista.addLast(bueno);
-											}
-											else{
-												//No existe el elemento
-												throw new ExcepcionNoExiste(AuxRuta);
-											}
+							default:
+								//Comprobar que es un directorio ,o si es el ultimo añadirlo
+								if(auxLista.size()==0){
+									//En la raiz
+									if( longitud == 1){
+										//El elemento al que se quiere acceder existe en raiz
+										Directorio auxDir = Raiz;
+										if(auxDir.buscarNodo(AuxRuta)){
+											//Existe el elemento
+											Nodo bueno = auxDir.cogerNodo(AuxRuta);
+											auxLista.addLast(bueno);
 										}
-
 										else{
-											//Se va a ampliar la ruta
-											Directorio auxDir =  Raiz;
-											if(auxDir.buscarDirectorio(AuxRuta)){
-												//Existe directorio o enlace a directorio con el nombre
-												//AuxRuta
-												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-												auxLista.addLast(bueno);
-											}
-											else{
-												//No existe directorio o enlace a directorio con el nombre
-												//AuxRuta
-												throw new ExcepcionNoEsDirectorio(AuxRuta);
-											}	
+											//No existe el elemento
+											throw new ExcepcionNoExiste(AuxRuta);
 										}
 									}
 
 									else{
-										//En la lista de directorios
-										Directorio auxDir= (Directorio) auxLista.getLast().getNode();
-										//auxDir = directorio actual
-										if(longitud == 1){
-											//Elemento buscado
-											if(auxDir.buscarNodo(AuxRuta)){
-												//Elemento buscado existe en directorio actual
-												Nodo bueno = auxDir.cogerNodo(AuxRuta);
-												auxLista.addLast(bueno);
-											}
-											else{
-												//Elemento buscado no existe en directorio actual
-												throw new ExcepcionNoExiste(AuxRuta);
-											}
+										//Se va a ampliar la ruta
+										Directorio auxDir =  Raiz;
+										if(auxDir.buscarDirectorio(AuxRuta)){
+											//Existe directorio o enlace a directorio con el nombre
+											//AuxRuta
+											Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+											auxLista.addLast(bueno);
 										}
-
 										else{
-											//Se va a ampliar la ruta
-											if(auxDir.buscarDirectorio(AuxRuta)){
-												//Existe directorio o enlace a directorio con el nombre
-												//AuxRuta
-												Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-												auxLista.addLast(bueno);
-											}
-											else{
-												//No existe directorio o enlace a directorio con el nombre
-												//AuxRuta
-												throw new ExcepcionNoEsDirectorio(AuxRuta);
-											}	
+											//No existe directorio o enlace a directorio con el nombre
+											//AuxRuta
+											throw new ExcepcionNoEsDirectorio(AuxRuta);
+										}	
+									}
+								}
+
+								else{
+									//En la lista de directorios
+									Directorio auxDir= (Directorio) auxLista.getLast().getNode();
+									//auxDir = directorio actual
+									if(longitud == 1){
+										//Elemento buscado
+										if(auxDir.buscarNodo(AuxRuta)){
+											//Elemento buscado existe en directorio actual
+											Nodo bueno = auxDir.cogerNodo(AuxRuta);
+											auxLista.addLast(bueno);
+										}
+										else{
+											//Elemento buscado no existe en directorio actual
+											throw new ExcepcionNoExiste(AuxRuta);
+
 										}
 									}
-								break;
-							}
-							//Se descuenta el elemento evaluado de la longitud pendiente por analizar
-							longitud--;
-						} 	
-					return auxLista;
-				} 
+
+									else{
+										//Se va a ampliar la ruta
+										if(auxDir.buscarDirectorio(AuxRuta)){
+											//Existe directorio o enlace a directorio con el nombre
+											//AuxRuta
+											Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+											auxLista.addLast(bueno);
+										}
+										else{
+											//No existe directorio o enlace a directorio con el nombre
+											//AuxRuta
+											throw new ExcepcionNoEsDirectorio(AuxRuta);
+										}	
+									}
+								}
+							break;
+						}
+						//Se descuenta el elemento evaluado de la longitud pendiente por analizar
+						longitud--;
+					} 	
+				return auxLista;
 			} 
+		} 
 
-			else{
-				//Path vacía
-				return rutaInicial;
-			}
-		}
-
-		catch(ExcepcionArbolFicheros a){
-			System.out.println(a.toString());
-			return hijitosRuta;
+		else{
+			//Path vacía
+			return rutaInicial;
 		}
 	}
 	
@@ -169,13 +153,8 @@ class Ruta extends Nodo{
 		//Se hace un bucle para recurrer la ruta e ir añadiendo los directorios de la 
 		// 	forma /directorio1/directorio2
 		String ruteta = raiz.getNombre() + "/";
-		for(Iterator i = hijitosRuta.iterator();i.hasNext();){
-			
-			Nodo aux = (Nodo) i.next();
-			ruteta = ruteta +aux.getNombre();
-			if (i.hasNext()) {
-				ruteta = ruteta +"/";
-			}
+		for(Nodo aux:hijitosRuta){
+			ruteta = ruteta +aux.getNombre()+"/";
 		}
 		return ruteta;
 	}
@@ -206,54 +185,42 @@ class Ruta extends Nodo{
 	//se refiere a la raíz del árbol de directorios. También se le puede pasar como 
 	//parámetro una ruta completa (varios directorios separados por “/”)
 	public void cd(String path) throws ExcepcionArbolFicheros {	
-		try {
-			LinkedList<Nodo> Shadow = new LinkedList(hijitosRuta);
-			LinkedList<Nodo> Aux = busqueda(Shadow,path,raiz);
+		LinkedList<Nodo> Shadow = new LinkedList<Nodo>(hijitosRuta);
+		LinkedList<Nodo> Aux = busqueda(Shadow,path,raiz);
 
-			if(Aux.size() > 0 && !Aux.equals(hijitosRuta)){
-				//Aux contiene elementos y es diferente a hijitos ruta
-				Nodo PosibleBueno = hijitosRuta.getLast().getNode();
-				try{
-					if(PosibleBueno.getNode() instanceof Directorio ){
-						//Es directorio
-						hijitosRuta=Aux;
-					}
-					else{
-						throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
-					}
-				}
-				catch(ExcepcionNoEsDirectorio a){
-						System.out.println(a.toString());
-				}
-			}
-			else{
-				//Raiz
+		if(Aux.size() > 0 && !Aux.equals(hijitosRuta)){
+			//Aux contiene elementos y es diferente a hijitos ruta
+			Nodo PosibleBueno = Aux.getLast().getNode();
+			if(PosibleBueno.getNode() instanceof Directorio ){
+				//Es directorio
 				hijitosRuta=Aux;
 			}
+			else{
+				throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
+			}
 		}
-		catch (ExcepcionArbolFicheros a) {}
+		else{
+			//Raiz
+			hijitosRuta=Aux;
+		}
 	}
 		
 
 	//Muestra por pantalla el número que es el tamaño del archivo, directorio o enlace
 	//dentro de la ruta actual identificado por la cadena de texto que se le pasa como
 	//parámetro. También se le puede pasar una ruta completa.
-	public void stat(String element){
-		try {
-			LinkedList<Nodo> Shadow = new LinkedList<Nodo>(hijitosRuta);
-			LinkedList<Nodo> Buscado = busqueda(Shadow,element,raiz);
-			if(Buscado.size() == 0 ){
-				//En la raiz
-				System.out.println("El archivo: "+ element + " tiene un tamano de: "+raiz.getSize());
-			}
-			else{
-				Nodo Deseado= Buscado.getLast();
-				System.out.println("El archivo: "+ Deseado.getNombre()+ " tiene un tamano de: "+Deseado.getSize()+ " bytes");
-			}
+	public void stat(String element) throws ExcepcionArbolFicheros{
+
+		LinkedList<Nodo> Shadow = new LinkedList<Nodo>(hijitosRuta);
+		LinkedList<Nodo> Buscado = busqueda(Shadow,element,raiz);
+		if(Buscado.size() == 0 ){
+			//En la raiz
+			System.out.println("El archivo: "+ element + " tiene un tamano de "+raiz.getSize() + " bytes");
 		}
-		catch (ExcepcionArbolFicheros a) {}
-
-
+		else{
+			Nodo Deseado= Buscado.getLast();
+			System.out.println("El archivo: "+ Deseado.getNombre()+ " tiene un tamano de: "+Deseado.getSize()+ " bytes");
+		}
 	}
 
 	//Cambia el tamaño de un archivo dentro de la ruta actual (no se le puede pasar como
@@ -261,48 +228,35 @@ class Ruta extends Nodo{
 	//crea automáticamente con el nombre y tamaño especificados. Si el archivo referenciado
 	//por "file" es en realidad un enlace a un archivo, también cambia su tamaño.
 	public void vim(String file, int size) throws ExcepcionArbolFicheros{
-		try {
-			Directorio Cambio;
-			if (hijitosRuta.size()==0){
-				//No hay hijos en la ruta
-				Cambio = raiz;
-			}
-			else{
-				//Hay hijos en la ruta, se escoge el directorio actual
-				Cambio = (Directorio) hijitosRuta.getLast().getNode();
-			}
-			
-			boolean encontrado=false;
-			for(Nodo posibleElemento : Cambio.hijitos){
-				posibleElemento=posibleElemento.getNode();
-				String posibleNombre= posibleElemento.getNombre();
-				// Miramos si coincide
-				if(posibleNombre == file ){
-					if(posibleElemento.getNode() instanceof Archivo){
-						Archivo aux= (Archivo) posibleElemento;
-						aux.setSize(size);
-						encontrado=true;
-					}
-					else{
-						//Dara error
-					}
-					break;
-				}
-			}
-			if(!encontrado){
-				// Lo creamos;
-				Archivo nuevo = new Archivo(file,size);
-				// Lo añadimos
-				Cambio.hijitos.addLast(nuevo);
+		Directorio Cambio;
+		if (hijitosRuta.size()==0){
+			//No hay hijos en la ruta
+			Cambio = raiz;
+		}
+		else{
+			//Hay hijos en la ruta, se escoge el directorio actual
+			Cambio = (Directorio) hijitosRuta.getLast().getNode();
+		}
+		if (Cambio.buscarNodo(file)) {
+			//File en nodo
+			Nodo buscado = Cambio.cogerNodo(file);
+			if(buscado.getNode() instanceof Archivo) {
+				//aux es archivo
+				Archivo aux = (Archivo) buscado;
+				aux.setSize(size);
 			}
 		}
-		catch (ExcepcionArbolFicheros a) {}
+		else {
+			//No file en nodo
+			Archivo nuevo = new Archivo(file, size);
+			//Lo añadimos
+			Cambio.hijitos.addLast(nuevo);
+		}
 	}
 
 	//Crea un directorio dentro de la ruta actual. No se le puede pasar como
 	//parámetro una ruta completa.
-	public void mkdir(String dir){
-		try {
+	public void mkdir(String dir) throws ExcepcionArbolFicheros{
 			Directorio nuevo = new Directorio(dir);
 			if (hijitosRuta.size() == 0) { //Añadir en el directorio raíz
 				raiz.addNodo(nuevo);
@@ -311,8 +265,7 @@ class Ruta extends Nodo{
 				Directorio ultimo = (Directorio) hijitosRuta.getLast();
 				ultimo.addNodo(nuevo);
 			}
-		}
-		catch (ExcepcionArbolFicheros e) {}
+	
 	}
 
 	//Crea un enlace simbólico de nombre "dest" a que enlazar el elemento identificado
@@ -320,32 +273,37 @@ class Ruta extends Nodo{
 	//sí, de tal modo que pueden crearse enlaces simbólicos entre elementos dentro de 
 	//diferentes posiciones del árbol de directorios.
 	public void ln(String orig, String dest) throws ExcepcionArbolFicheros {
-		try {
-			LinkedList<Nodo> Shadow= new LinkedList<Nodo>(hijitosRuta);
-			LinkedList<Nodo> Buscado=busqueda(Shadow,orig,raiz);
+		LinkedList<Nodo> Shadow= new LinkedList<Nodo>(hijitosRuta);
+		LinkedList<Nodo> Buscado=busqueda(Shadow,orig,raiz);
 
-			if(!Buscado.isEmpty() &&  ! Buscado.equals(hijitosRuta)){
-				//Buscado contiene elementos
-				Nodo PosibleBueno=Buscado.getLast();
-				Buscado.removeLast();
-				Enlace Nuevo = new Enlace(PosibleBueno,dest);
+		if(!Buscado.isEmpty()){
+			//Buscado contiene elementos
+			Nodo PosibleBueno=Buscado.removeLast();
+			Enlace Nuevo = new Enlace(PosibleBueno,dest);
 
-				if(hijitosRuta.isEmpty()){
-					raiz.addNodo(Nuevo);
-				}
-
-				else{
-					Directorio objetivo=(Directorio) hijitosRuta.getLast();
-					objetivo.addNodo(Nuevo);
-				}
+			if(hijitosRuta.isEmpty()){
+				raiz.addNodo(Nuevo);
 			}
 
 			else{
-				hijitosRuta=Buscado;
+				Directorio objetivo=(Directorio) hijitosRuta.peekLast().getNode();
+				objetivo.addNodo(Nuevo);
 			}
 		}
-		catch (ExcepcionArbolFicheros a) {}
 
+		else{
+			//Enlazando raiz
+			Enlace Nuevo = new Enlace(raiz, dest);
+			if(hijitosRuta.isEmpty()){
+				raiz.addNodo(Nuevo);
+			}
+
+			else{
+				Directorio objetivo=(Directorio) hijitosRuta.peekLast().getNode();
+				objetivo.addNodo(Nuevo);
+			}
+
+		}
 	}
 
 	//Elimina un elemento dentro de la ruta actual (puede pasársele como parámetro 
@@ -355,49 +313,36 @@ class Ruta extends Nodo{
 	//enlazando al elemento borrado. Así pues, para eliminar completamente un elemento
 	//hay que borrar el elemento y todos los enlaces que apuntan a dicho elemento de forma
 	//manual
-	public void rm(String e){
+	public void rm(String e) throws ExcepcionArbolFicheros{
 
-		try{
-			if (!(e.equals("/") || (e.equals(".") && hijitosRuta.size() == 0)) )  {
-				//No se intenta eliminar la raíz
-				LinkedList<Nodo> Aux=busqueda(hijitosRuta,e,raiz);
-				if(!Aux.isEmpty()){
-					//Eliminar elemento a borrar
-					Nodo elem = Aux.removeLast();
-					//Directorio 
-					Nodo PosibleBueno=raiz;
-					if (Aux.size() > 0) {
-						PosibleBueno = Aux.getLast();
+		if (!(e.equals("/") || (e.equals(".") && hijitosRuta.size() == 0)) )  {
+			//No se intenta eliminar la raíz
+			LinkedList<Nodo> Aux=busqueda(hijitosRuta,e,raiz);
+			if(!Aux.isEmpty()){
+				//Eliminar elemento a borrar
+				Nodo elem = Aux.removeLast();
+				//Directorio 
+				Nodo PosibleBueno=raiz;
+				if (Aux.size() > 0) {
+					PosibleBueno = Aux.getLast();
+					if(PosibleBueno.getNode() instanceof Directorio) {
+						//Ruta correcta hasta directorio -> eliminar nodo
+						Directorio esBien = (Directorio) PosibleBueno;
+						esBien.eliminar(elem.getNombre());
 					}
-					try{
-						if(PosibleBueno instanceof Directorio) {
-							//Ruta correcta hasta directorio -> eliminar nodo
-							Directorio esBien = (Directorio) PosibleBueno;
-							esBien.eliminar(elem.getNombre());
-						}
-						else{
-							throw new ExcepcionNoExiste("Argumento erroneo");
-						}
-					}
-					catch(ExcepcionNoExiste a){
-						System.out.println(a.toString());
+					else{
+						throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
 					}
 				}
 			}
-
-			else {
-				//Se está intentando eliminar la raiz
-				throw new ExcepcionNoExiste("Se esta intentando eliminar la raiz");
-			}
-		} 
-		catch(ExcepcionArbolFicheros a){}
+		}
 	}
 
 	//Devuelve el tamaño del Nodo apuntado por el objeto que invoca el método
-	int getSize(){
+	public int getSize(){
 		return 0;
 	}
-	Nodo getNode(){
+	public Nodo getNode(){
 		return this;
 	}
 }
