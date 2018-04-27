@@ -14,7 +14,7 @@ class Enlace extends Nodo
 	Nodo NodoEnlazado;
 
 	//-----Constructor de Enlace-----
-	public Enlace (Nodo nodete,String nombre) throws ExcepcionNombreIncorrecto{
+	public Enlace (Nodo nodete,String nombre) throws ExcepcionArbolFicheros{
 		NodoEnlazado=nodete;
 		nombreNodo=nombre;
 		boolean nombreCorrecto = this.nombreCorrecto(nombre);

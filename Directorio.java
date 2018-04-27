@@ -12,7 +12,7 @@ class Directorio extends Nodo{
 
 		//-----Constructor de Directorio-----
 		//Constructor de Directorio dado un nombreDirectorio
-		public Directorio (String nombreDirectorio) throws ExcepcionNombreIncorrecto {
+		public Directorio (String nombreDirectorio) throws ExcepcionArbolFicheros {
 			nombreNodo = nombreDirectorio;
 			size = 0;
 			boolean nombreCorrecto = this.nombreCorrecto(nombreDirectorio);
@@ -26,7 +26,7 @@ class Directorio extends Nodo{
 		//-----Métodos de Directorio-----
 		//Añade a la lista de nodos del Directorio el nuevo nodo y devuelve true si se ha añadido 
 		//con exito a la lista de elementos hijos y false en cualquier otro caso
-		public boolean addNodo(Nodo NodoAnyadir) throws ExcepcionNombreRepetido {
+		public boolean addNodo(Nodo NodoAnyadir) throws ExcepcionArbolFicheros {
 			if (hijitos.size() > 0) {
 				//Si el directorio tiene algun elemento comprueba si ninguno tiene el mismo
 				//nombre que el nodo a añadir

@@ -43,10 +43,11 @@ class Ruta extends Nodo{
 					//Path se refiere a una ruta
 					String[] siguienteRuta = path.split("/");
 					int longitud=siguienteRuta.length;
+					auxLista = new LinkedList<Nodo>();
 
 					if (!siguienteRuta[0].isEmpty()){
 						//relativa
-							auxLista=rutaInicial;
+						auxLista=rutaInicial;
 					}
 
 					for (String AuxRuta : siguienteRuta){
@@ -330,6 +331,7 @@ class Ruta extends Nodo{
 				//Directorio 
 				Nodo PosibleBueno=raiz;
 				if (Aux.size() > 0) {
+					//No fichero raíz
 					PosibleBueno = Aux.getLast();
 					if(PosibleBueno.getNode() instanceof Directorio) {
 						//Ruta correcta hasta directorio -> eliminar nodo
@@ -341,7 +343,8 @@ class Ruta extends Nodo{
 					}
 				}
 				else{
-					PosibleBueno = Aux.getLast();
+					//Directorio raiz
+					PosibleBueno = raiz;
 					if(PosibleBueno.getNode() instanceof Directorio) {
 						//Ruta correcta hasta directorio -> eliminar nodo
 						Directorio esBien = (Directorio) PosibleBueno;

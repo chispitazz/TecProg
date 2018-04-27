@@ -11,7 +11,7 @@ class Archivo extends Nodo
 
 	//-----Constructor de Archivo-----
 	//Constructor dado un nombreArchivo y tamanyoArchivo
-	public Archivo(String NombreArchivo,int tamanyoArchivo) throws ExcepcionNombreIncorrecto {
+	public Archivo(String NombreArchivo,int tamanyoArchivo) throws ExcepcionArbolFicheros {
 		nombreNodo=NombreArchivo;
 		size=tamanyoArchivo;
 		boolean nombreCorrecto = this.nombreCorrecto(NombreArchivo);
@@ -23,7 +23,7 @@ class Archivo extends Nodo
 
 	//-----Métodos  de Archivo-----
 	//Cambia el valor de size de un Archivo a tamanyoArchivo
-	public void setSize(int tamanyoArchivo) throws ExcepcionTamanyoIncorrecto {
+	public void setSize(int tamanyoArchivo) throws ExcepcionArbolFicheros {
 		if(tamanyoArchivo < 0) {
 			throw new ExcepcionTamanyoIncorrecto();
 		}

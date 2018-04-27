@@ -14,7 +14,7 @@ abstract class Nodo
 		return nombreNodo;
 	}
 	//Comprueba que el nombre que se quiere asignar a un Nodo es correcto
-	public boolean nombreCorrecto (String nombreCand) throws ExcepcionNombreIncorrecto {
+	public boolean nombreCorrecto (String nombreCand) throws ExcepcionArbolFicheros {
 		try {		
 			if (nombreCand.equals(".") || nombreCand.equals("..") || //Nombre != "." || ".."
 				(nombreCand.length() > 0 && nombreCand.split("/").length > 1) || //Nombre no vacio y no contiene "/"
