@@ -12,16 +12,58 @@ class Directorio extends Nodo{
 
 		//-----Constructor de Directorio-----
 		//Constructor de Directorio dado un nombreDirectorio
-		public Directorio (String nombreDirectorio){
-			//COMPROBAR QUE nombreDirectorio es CORRECTO
+		public Directorio (String nombreDirectorio) throws ExcepcionNombreIncorrecto {
 			nombreNodo = nombreDirectorio;
-			size=0;
+			size = 0;
+			try {
+				boolean nombreCorrecto = this.nombreCorrecto(nombreDirectorio);
+				if (!nombreCorrecto) {
+					System.out.println(this.nombreNodo + " no valido siendo nombreDir " + nombreDirectorio);
+					nombreNodo = null; 
+					size = -1; 
+				}
+			}
+			catch (ExcepcionNombreIncorrecto e) {}
 		}
 
 		//-----Métodos de Directorio-----
-		//Añade a la lista de nodos del Directorio el nuevo nodo
-		public boolean addNodo(Nodo NodoAnyadir){
-			return hijitos.add(NodoAnyadir);
+		//Añade a la lista de nodos del Directorio el nuevo nodo y devuelve true si se ha añadido 
+		//con exito a la lista de elementos hijos y false en cualquier otro caso
+		public boolean addNodo(Nodo NodoAnyadir) throws ExcepcionNombreRepetido {
+			if (hijitos.size() > 0) {
+				//Si el directorio tiene algun elemento comprueba si ninguno tiene el mismo
+				//nombre que el nodo a añadir
+				try {
+					boolean mismoNombre = false;
+					String nombreAnyadir = NodoAnyadir.getNombre();
+					//Buscar algun elemento con el mismo nombre
+					for (Nodo i:hijitos) {
+						mismoNombre = nombreAnyadir.equals(i.getNombre());
+						if (mismoNombre) {
+							//Existe elemento con mismo nombre -> NO se va añadir el nodo
+							throw new ExcepcionNombreRepetido(this.getNombre());
+						}
+					}
+
+					if (!mismoNombre) {
+						//NO existe elemento con mismo nombre -> SE AÑADE el nodo
+						return hijitos.add(NodoAnyadir);
+					}
+				}
+				catch (ExcepcionNombreRepetido e) {
+					//Ya hay un elemento con mismo nombre
+					System.out.println(e.toString());
+					return false;
+				} 
+			}
+
+			else {
+				//El directorio está vacío -> Se va a añadir el primer elemento
+				return hijitos.add(NodoAnyadir);
+			}
+
+			//Nunca debería llegar aquí pero es para que no salten errores de compilación
+			return false;
 		}
 
 		//Devuelve el valor de size calculado según el contenido de la lista de Nodos
@@ -29,7 +71,6 @@ class Directorio extends Nodo{
 			size=0;
 			//Iteramos la lista
 			for(Iterator i = hijitos.iterator();i.hasNext();){
-
 				Nodo aux= (Nodo) i.next();
 				size= size+aux.getSize();
 			}
@@ -45,8 +86,15 @@ class Directorio extends Nodo{
 				listado = listado+aux.getNombre()+"\n";
 			}
 			return listado;
-
 		}
+
+		//Devuelve el tamaño del Nodo apuntado por el objeto que invoca el método
+		Nodo getNode(){
+			return this;
+		}
+
+		//Devuelve cierto si existe un nodo con nombre "buscado" en el Directorio
+		//que invoca la función
 		public boolean buscarNodo(String buscado){
 				boolean esta = false;
 				for(Nodo i : hijitos){
@@ -54,30 +102,28 @@ class Directorio extends Nodo{
 							esta=true;
 							break;
 						}
-					}
-				
+					}				
 				return esta;
 		}
 
-
+		//Devuelve el nodo con nombre "buscado" que se encuentra en el Directorio
+		//que invoca la función
 		public Nodo cogerNodo(String buscado){
 				for(Nodo i : hijitos){
 						if(buscado.equals(i.getNombre()) ) {
-							return i;
-						
+							return i;						
 						}
 				}
-				
 				return this;
-		
 		}
+
 		//Devuelve cierto si existe un Directorio con nombre buscado en Directorio
 		public boolean buscarDirectorio(String buscado) {
 			boolean esta = false;
 			for(Iterator i = hijitos.iterator(); i.hasNext() & !esta;){
 
 				Nodo aux = (Nodo) i.next();
-				if (aux instanceof Directorio) { //Si aux es directorio
+				if (aux.getNode() instanceof Directorio) { //Si aux es directorio
 					esta = buscado.equals(aux.getNombre());
 					
 				}
@@ -85,11 +131,14 @@ class Directorio extends Nodo{
 			}
 			return esta;
 		}
+
+		//Devuelve el directorio con nombre "buscado" que se encuentra en el Directorio
+		//que invoca la función
 		public Directorio cogerDirectorio(String buscado){
 			boolean esta = false;
 			for(Iterator i = hijitos.iterator(); i.hasNext() & !esta;){
 				Nodo aux = (Nodo) i.next();
-				if (aux instanceof Directorio) { //Si aux es directorio
+				if (aux.getNode() instanceof Directorio) { //Si aux es directorio
 					esta = buscado.equals(aux.getNombre());
 					if(esta){
 						return (Directorio) aux;
@@ -100,9 +149,7 @@ class Directorio extends Nodo{
 			return  (Directorio) hijitos.getLast();
 		}
 
-		Nodo getNode(){
-			return this;
-		}
+		//Busca el nodo con "nombreNodo" y lo elimina de la lista de hijos
 		public void eliminar(String nombreNodo) {
 			//Buscar indice 
 			int index = 0;
