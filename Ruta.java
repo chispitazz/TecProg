@@ -338,21 +338,12 @@ class Ruta extends Nodo{
 				//Directorio 
 				Nodo PosibleBueno=raiz;
 				if (Aux.size() > 0) {
-<<<<<<< HEAD
-					//No fichero raíz
-					PosibleBueno = Aux.getLast();
-					if(PosibleBueno.getNode() instanceof Directorio) {
-						//Ruta correcta hasta directorio -> eliminar nodo
-						Directorio esBien = (Directorio) PosibleBueno;
-						esBien.eliminar(elem.getNombre());
-=======
 					PosibleBueno = hijitosRuta.getLast();
 					for(Nodo i : hijitosRuta){
 						if (i.getNombre() == elem.getNombre() || i.getNombre()== raiz.getNombre()){
 							throw new Autoeliminacion(elem.getNombre());
 						}
 						else{}
->>>>>>> 1c92fc3974633707e1dac0fb75956ef132944475
 					}
 					if(PosibleBueno.getNode() instanceof Directorio) {
 							//Ruta correcta hasta directorio -> eliminar nodo
@@ -366,19 +357,10 @@ class Ruta extends Nodo{
 					
 				}
 				else{
-<<<<<<< HEAD
-					//Directorio raiz
-					PosibleBueno = raiz;
-					if(PosibleBueno.getNode() instanceof Directorio) {
-						//Ruta correcta hasta directorio -> eliminar nodo
-						Directorio esBien = (Directorio) PosibleBueno;
-						esBien.eliminar(elem.getNombre());
-=======
 					if(!hijitosRuta.isEmpty()){
 						if(hijitosRuta.getLast().getNombre()==elem.getNombre()){
 							throw new Autoeliminacion(elem.getNombre());
 						}
->>>>>>> 1c92fc3974633707e1dac0fb75956ef132944475
 					}
 					
 					else{
