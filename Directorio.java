@@ -12,7 +12,11 @@ class Directorio extends Nodo{
 
 		//-----Constructor de Directorio-----
 		//Constructor de Directorio dado un nombreDirectorio
+<<<<<<< HEAD
 		public Directorio (String nombreDirectorio) throws ExcepcionArbolFicheros {
+=======
+		public Directorio (String nombreDirectorio) throws ExcepcionArbolFicheros{
+>>>>>>> 626ed1dce5ba0c6b8927ebe79a12e9ef77102515
 			nombreNodo = nombreDirectorio;
 			size = 0;
 			boolean nombreCorrecto = this.nombreCorrecto(nombreDirectorio);
