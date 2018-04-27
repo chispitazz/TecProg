@@ -29,8 +29,8 @@ class Ruta extends Nodo{
 	//Dadas una ruta inicial, una cadena que indica un recorrido y una raiz la funcion
 	//devuelve la lista correspondiente de evaluar el recorrido e intentar acceder a él
 	private LinkedList<Nodo> busqueda(LinkedList<Nodo> rutaInicial, String path,Directorio Raiz) throws ExcepcionArbolFicheros {
-			//Se asume ruta relativa
-			LinkedList<Nodo> auxLista=hijitosRuta;
+			//Se asume ruta absoluta
+			LinkedList<Nodo> auxLista=new LinkedList<Nodo>();
 			if( (path != null) && (!path.equals("")) ){	
 				//Path no nula y no vacía	
 				if(path.equals("/")){
@@ -247,7 +247,14 @@ class Ruta extends Nodo{
 			if(buscado.getNode() instanceof Archivo) {
 				//aux es archivo
 				Archivo aux = (Archivo) buscado;
-				aux.setSize(size);
+				if(size<0){
+					throw new Tamano(aux.getNombre());
+
+				}
+				else{
+					aux.setSize(size);
+				}
+				
 			}
 			else{
 				throw new ExcepcionNoEsArchivo(buscado.getNombre());
@@ -331,27 +338,58 @@ class Ruta extends Nodo{
 				//Directorio 
 				Nodo PosibleBueno=raiz;
 				if (Aux.size() > 0) {
+<<<<<<< HEAD
 					//No fichero raíz
 					PosibleBueno = Aux.getLast();
 					if(PosibleBueno.getNode() instanceof Directorio) {
 						//Ruta correcta hasta directorio -> eliminar nodo
 						Directorio esBien = (Directorio) PosibleBueno;
 						esBien.eliminar(elem.getNombre());
+=======
+					PosibleBueno = hijitosRuta.getLast();
+					for(Nodo i : hijitosRuta){
+						if (i.getNombre() == elem.getNombre() || i.getNombre()== raiz.getNombre()){
+							throw new Autoeliminacion(elem.getNombre());
+						}
+						else{}
+>>>>>>> 1c92fc3974633707e1dac0fb75956ef132944475
 					}
-					else{
-						throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
+					if(PosibleBueno.getNode() instanceof Directorio) {
+							//Ruta correcta hasta directorio -> eliminar nodo
+							Directorio esBien = (Directorio) PosibleBueno;
+							esBien.eliminar(elem.getNombre());
+						}
+						else{
+							throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
 					}
+					
+					
 				}
 				else{
+<<<<<<< HEAD
 					//Directorio raiz
 					PosibleBueno = raiz;
 					if(PosibleBueno.getNode() instanceof Directorio) {
 						//Ruta correcta hasta directorio -> eliminar nodo
 						Directorio esBien = (Directorio) PosibleBueno;
 						esBien.eliminar(elem.getNombre());
+=======
+					if(!hijitosRuta.isEmpty()){
+						if(hijitosRuta.getLast().getNombre()==elem.getNombre()){
+							throw new Autoeliminacion(elem.getNombre());
+						}
+>>>>>>> 1c92fc3974633707e1dac0fb75956ef132944475
 					}
+					
 					else{
-						throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
+						if(PosibleBueno.getNode() instanceof Directorio) {
+							//Ruta correcta hasta directorio -> eliminar nodo
+							Directorio esBien = (Directorio) PosibleBueno;
+							esBien.eliminar(elem.getNombre());
+						}
+						else{
+							throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
+						}
 					}
 				}
 			}
@@ -360,7 +398,7 @@ class Ruta extends Nodo{
 
 	//Devuelve el tamaño del Nodo apuntado por el objeto que invoca el método
 	public int getSize(){
-		return 0;
+		return raiz.getSize();
 	}
 	public Nodo getNode(){
 		return this;

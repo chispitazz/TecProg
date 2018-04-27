@@ -114,3 +114,21 @@ class ExcepcionNoEsArchivo extends ExcepcionArbolFicheros {
 		return nombreExcept;
 	}
 }
+@SuppressWarnings("serial")
+class Autoeliminacion extends ExcepcionArbolFicheros {
+	public Autoeliminacion(String nombre) {
+		super("El elemento: " + nombre + " que pretendias borrar es en tu path");
+	}
+	public String toString() {
+		return nombreExcept;
+	}
+}
+@SuppressWarnings("serial")
+class Tamano extends ExcepcionArbolFicheros {
+	public Tamano(String nombre) {
+		super("El tamanyo introducido es incorrecto,tiene que se mayor que cero");
+	}
+	public String toString() {
+		return nombreExcept;
+	}
+}
