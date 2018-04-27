@@ -64,3 +64,12 @@ class ExcepcionNoEsDirectorio extends ExcepcionArbolFicheros {
 		return nombreExcept;
 	}
 }
+@SuppressWarnings("serial")
+class ExcepcionNoEsArchivo extends ExcepcionArbolFicheros {
+	public ExcepcionNoEsArchivo(String nombre) {
+		super("El elemento: " + nombre + " al que se pretende acceder no\n es un Archivo ni un enlace a uno");
+	}
+	public String toString() {
+		return nombreExcept;
+	}
+}

@@ -45,96 +45,99 @@ class Ruta extends Nodo{
 					int longitud=siguienteRuta.length;
 
 					if (!siguienteRuta[0].isEmpty()){
-						//Ruta absoluta
+						//relativa
 							auxLista=rutaInicial;
 					}
 
 					for (String AuxRuta : siguienteRuta){
-						//Se recorre path y se realizan cambios en auxLista
-						switch (AuxRuta){
-							//Analiza los posibles valores del path
-							case "..":											
-								if(auxLista.size() > 0){
-									//NO EN raíz por lo que se puede retroceder
-									auxLista.removeLast();
-								}									
-							break;
+						if((AuxRuta != null) && (!AuxRuta.equals("")) ){
+							//Se recorre path y se realizan cambios en auxLista
+								switch (AuxRuta){
+									//Analiza los posibles valores del path
+									case "..":											
+										if(auxLista.size() > 0){
+											//NO EN raíz por lo que se puede retroceder
+											auxLista.removeLast();
+										}									
+									break;
 
-							case ".": 	
-								//Se refiere al directorio actual por lo que no implica cambios
-							break;
+									case ".": 	
+										//Se refiere al directorio actual por lo que no implica cambios
+									break;
 
-							default:
-								//Comprobar que es un directorio ,o si es el ultimo añadirlo
-								if(auxLista.size()==0){
-									//En la raiz
-									if( longitud == 1){
-										//El elemento al que se quiere acceder existe en raiz
-										Directorio auxDir = Raiz;
-										if(auxDir.buscarNodo(AuxRuta)){
-											//Existe el elemento
-											Nodo bueno = auxDir.cogerNodo(AuxRuta);
-											auxLista.addLast(bueno);
+									default:
+										//Comprobar que es un directorio ,o si es el ultimo añadirlo
+										if(auxLista.size()==0){
+											//En la raiz
+											if( longitud == 1){
+												//El elemento al que se quiere acceder existe en raiz
+												Directorio auxDir = Raiz;
+												if(auxDir.buscarNodo(AuxRuta)){
+													//Existe el elemento
+													Nodo bueno = auxDir.cogerNodo(AuxRuta);
+													auxLista.addLast(bueno);
+												}
+												else{
+													//No existe el elemento
+													throw new ExcepcionNoExiste(AuxRuta);
+												}
+											}
+
+											else{
+												//Se va a ampliar la ruta
+												Directorio auxDir =  Raiz;
+												if(auxDir.buscarDirectorio(AuxRuta)){
+													//Existe directorio o enlace a directorio con el nombre
+													//AuxRuta
+													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+													auxLista.addLast(bueno);
+												}
+												else{
+													//No existe directorio o enlace a directorio con el nombre
+													//AuxRuta
+													throw new ExcepcionNoEsDirectorio(AuxRuta);
+												}	
+											}
 										}
+
 										else{
-											//No existe el elemento
-											throw new ExcepcionNoExiste(AuxRuta);
-										}
-									}
+											//En la lista de directorios
+											Directorio auxDir= (Directorio) auxLista.getLast().getNode();
+											//auxDir = directorio actual
+											if(longitud == 1){
+												//Elemento buscado
+												if(auxDir.buscarNodo(AuxRuta)){
+													//Elemento buscado existe en directorio actual
+													Nodo bueno = auxDir.cogerNodo(AuxRuta);
+													auxLista.addLast(bueno);
+												}
+												else{
+													//Elemento buscado no existe en directorio actual
+													throw new ExcepcionNoExiste(AuxRuta);
 
-									else{
-										//Se va a ampliar la ruta
-										Directorio auxDir =  Raiz;
-										if(auxDir.buscarDirectorio(AuxRuta)){
-											//Existe directorio o enlace a directorio con el nombre
-											//AuxRuta
-											Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-											auxLista.addLast(bueno);
+												}
+											}
+
+											else{
+												//Se va a ampliar la ruta
+												if(auxDir.buscarDirectorio(AuxRuta)){
+													//Existe directorio o enlace a directorio con el nombre
+													//AuxRuta
+													Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
+													auxLista.addLast(bueno);
+												}
+												else{
+													//No existe directorio o enlace a directorio con el nombre
+													//AuxRuta
+													throw new ExcepcionNoEsDirectorio(AuxRuta);
+												}	
+											}
 										}
-										else{
-											//No existe directorio o enlace a directorio con el nombre
-											//AuxRuta
-											throw new ExcepcionNoEsDirectorio(AuxRuta);
-										}	
-									}
+									break;
 								}
-
-								else{
-									//En la lista de directorios
-									Directorio auxDir= (Directorio) auxLista.getLast().getNode();
-									//auxDir = directorio actual
-									if(longitud == 1){
-										//Elemento buscado
-										if(auxDir.buscarNodo(AuxRuta)){
-											//Elemento buscado existe en directorio actual
-											Nodo bueno = auxDir.cogerNodo(AuxRuta);
-											auxLista.addLast(bueno);
-										}
-										else{
-											//Elemento buscado no existe en directorio actual
-											throw new ExcepcionNoExiste(AuxRuta);
-
-										}
-									}
-
-									else{
-										//Se va a ampliar la ruta
-										if(auxDir.buscarDirectorio(AuxRuta)){
-											//Existe directorio o enlace a directorio con el nombre
-											//AuxRuta
-											Directorio bueno = auxDir.cogerDirectorio(AuxRuta);
-											auxLista.addLast(bueno);
-										}
-										else{
-											//No existe directorio o enlace a directorio con el nombre
-											//AuxRuta
-											throw new ExcepcionNoEsDirectorio(AuxRuta);
-										}	
-									}
-								}
-							break;
-						}
 						//Se descuenta el elemento evaluado de la longitud pendiente por analizar
+						}
+						
 						longitud--;
 					} 	
 				return auxLista;
@@ -245,6 +248,9 @@ class Ruta extends Nodo{
 				Archivo aux = (Archivo) buscado;
 				aux.setSize(size);
 			}
+			else{
+				throw new ExcepcionNoEsArchivo(buscado.getNombre());
+			}
 		}
 		else {
 			//No file en nodo
@@ -325,6 +331,16 @@ class Ruta extends Nodo{
 				Nodo PosibleBueno=raiz;
 				if (Aux.size() > 0) {
 					PosibleBueno = Aux.getLast();
+					if(PosibleBueno.getNode() instanceof Directorio) {
+						//Ruta correcta hasta directorio -> eliminar nodo
+						Directorio esBien = (Directorio) PosibleBueno;
+						esBien.eliminar(elem.getNombre());
+					}
+					else{
+						throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
+					}
+				}
+				else{
 					if(PosibleBueno.getNode() instanceof Directorio) {
 						//Ruta correcta hasta directorio -> eliminar nodo
 						Directorio esBien = (Directorio) PosibleBueno;
