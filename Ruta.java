@@ -341,6 +341,7 @@ class Ruta extends Nodo{
 					}
 				}
 				else{
+					PosibleBueno = Aux.getLast();
 					if(PosibleBueno.getNode() instanceof Directorio) {
 						//Ruta correcta hasta directorio -> eliminar nodo
 						Directorio esBien = (Directorio) PosibleBueno;
