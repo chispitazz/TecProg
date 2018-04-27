@@ -80,7 +80,7 @@ class ExcepcionNombreRaiz extends ExcepcionArbolFicheros{
 @SuppressWarnings("serial")
 class ExcepcionTamanyoIncorrecto extends ExcepcionArbolFicheros{
 	public ExcepcionTamanyoIncorrecto(){
-		super("\nNo se puede asignar un TAMANYO NEGATIVO a un archivo\n");
+		super("\nNo se puede asignar un TAMANYO NEGATIVO a archivo\n");
 	}
 	public String toString(){
 		return nombreExcept;
@@ -114,19 +114,27 @@ class ExcepcionNoEsArchivo extends ExcepcionArbolFicheros {
 		return nombreExcept;
 	}
 }
+
+/*
+ * Se da cuando se intenta dar un tamaño negativo a un archivo
+ */
 @SuppressWarnings("serial")
-class Autoeliminacion extends ExcepcionArbolFicheros {
-	public Autoeliminacion(String nombre) {
-		super("El elemento: " + nombre + " que pretendias borrar es en tu path");
+class Tamano extends ExcepcionArbolFicheros{
+	public Tamano(String nombre){
+		super("\nNo se puede asignar un TAMANYO NEGATIVO a archivo: " + nombre + "\n");
 	}
-	public String toString() {
+	public String toString(){
 		return nombreExcept;
 	}
 }
+/*
+ * Se da cuando se intenta borrar un directorio o enlace a directorio que se encuentra
+ * en tu path
+ */
 @SuppressWarnings("serial")
-class Tamano extends ExcepcionArbolFicheros {
-	public Tamano(String nombre) {
-		super("El tamanyo introducido es incorrecto,tiene que se mayor que cero");
+class Autoeliminacion extends ExcepcionArbolFicheros {
+	public Autoeliminacion(String nombre) {
+		super("El elemento: " + nombre + " que pretendias borrar esta en tu path");
 	}
 	public String toString() {
 		return nombreExcept;
