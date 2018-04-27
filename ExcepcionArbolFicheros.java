@@ -76,7 +76,7 @@ class ExcepcionNoEsArchivo extends ExcepcionArbolFicheros {
 @SuppressWarnings("serial")
 class Autoeliminacion extends ExcepcionArbolFicheros {
 	public Autoeliminacion(String nombre) {
-		super("El elemento: " + nombre + " que pretendias borrar es la carpeta donde te encuentras");
+		super("El elemento: " + nombre + " que pretendias borrar es en tu path");
 	}
 	public String toString() {
 		return nombreExcept;

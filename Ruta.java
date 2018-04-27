@@ -338,19 +338,21 @@ class Ruta extends Nodo{
 				Nodo PosibleBueno=raiz;
 				if (Aux.size() > 0) {
 					PosibleBueno = hijitosRuta.getLast();
-					if(PosibleBueno.getNombre() == elem.getNombre()){
-						throw new ExcepcionNoEsDirectorio(elem.getNombre());
+					for(Nodo i : hijitosRuta){
+						if (i.getNombre() == elem.getNombre() || i.getNombre()== raiz.getNombre()){
+							throw new Autoeliminacion(elem.getNombre());
+						}
+						else{}
 					}
-					else{
-						if(PosibleBueno.getNode() instanceof Directorio) {
+					if(PosibleBueno.getNode() instanceof Directorio) {
 							//Ruta correcta hasta directorio -> eliminar nodo
 							Directorio esBien = (Directorio) PosibleBueno;
 							esBien.eliminar(elem.getNombre());
 						}
 						else{
 							throw new ExcepcionNoEsDirectorio(PosibleBueno.getNombre());
-						}
 					}
+					
 					
 				}
 				else{
